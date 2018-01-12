@@ -1,5 +1,4 @@
-using System;
-using Xunit;
+﻿using Xunit;
 
 namespace Kata.BowlingGame.Tests
 {
@@ -41,35 +40,21 @@ namespace Kata.BowlingGame.Tests
             Assert.Equal(20, _game.Score());
         }
 
-        //[Fact]
-        //public void TestOneSpare()
-        //{
-        //    _game.Roll(5);
-        //    _game.Roll(5);
-        //    _game.Roll(3);
-
-        //    RollMany(17, 0);
-
-        //    Assert.Equal(16, _game.Score());
-        //}
-    }
-
-    public class Game
-    {
-        private int _score = 0;
-        private int[] rolls = new int[21];
-        private int _currentRoll = 0;
-
-
-        public void Roll(int pins)
+        [Fact]
+        public void TestOneSpare()
         {
-            _score += pins;
-            rolls[_currentRoll++] = pins;
+            RollSpare();
+            _game.Roll(3);
+
+            RollMany(17, 0);
+
+            Assert.Equal(16, _game.Score());
         }
 
-        public int Score()
+        private void RollSpare()
         {
-            return _score;
+            _game.Roll(5);
+            _game.Roll(5);
         }
     }
 }
