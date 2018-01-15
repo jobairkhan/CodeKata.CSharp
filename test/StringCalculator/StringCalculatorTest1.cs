@@ -1,5 +1,4 @@
-using System;
-using Xunit;
+﻿using Xunit;
 
 namespace StringCalculator
 {
@@ -38,12 +37,11 @@ namespace StringCalculator
             Assert.Equal(expected, actual);
         }
     }
-
     public class Calculator
     {
         public int Add(string value)
         {
-            if (int.TryParse(value, out  var result))
+            if (int.TryParse(value, out var result))
             {
                 return result;
             }
