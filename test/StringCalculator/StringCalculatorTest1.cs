@@ -30,7 +30,7 @@ namespace StringCalculator
 
         [Theory]
         [InlineData("1,2", 3)]
-        public void CommaSeparartedValueReturnsSum(string value, int expected)
+        public void CommaSeparatedValueReturnsSum(string value, int expected)
         {
             var actual = _calculator.Add(value);
 
