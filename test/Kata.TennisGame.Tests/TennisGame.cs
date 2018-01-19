@@ -13,7 +13,24 @@ namespace Kata.TennisGame.Tests
 
         public string Result()
         {
-            return "Player1 advantage";
+            var result = "";
+
+            if (_player1.ContainsThirty()
+                && _player2.ContainsThirty())
+            {
+                result += "advantage";
+
+                if (_player1.ContainsForty())
+                {
+                    result = $"Player {_player1.Name} {result}";
+                }
+                else if (_player2.ContainsForty())
+                {
+                    result = $"Player {_player2.Name} {result}";
+                }
+            }
+
+            return result;
         }
     }
 }

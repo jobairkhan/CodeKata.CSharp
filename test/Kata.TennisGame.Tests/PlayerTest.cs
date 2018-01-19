@@ -37,15 +37,13 @@ namespace Kata.TennisGame.Tests
                     : _player2;
 
             AddSocres(score, player);
-
-            var actual = string.Join("", player.Scores());
-
-            Assert.Equal(expected, (string) JoinToTest(player));
+            
+            Assert.Equal(expected, JoinToTest(player));
         }
         
         private static string JoinToTest(IPlayer player)
         {
-            return string.Join("", player.Scores());
+            return string.Join(" ", player.Scores());
         }
     }
 }

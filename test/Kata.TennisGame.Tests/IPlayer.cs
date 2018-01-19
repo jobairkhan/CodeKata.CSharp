@@ -9,5 +9,8 @@ namespace Kata.TennisGame.Tests
         List<string> Scores();
 
         void AddScore(int newScore = 1);
+
+        bool ContainsThirty();
+        bool ContainsForty();
     }
 }

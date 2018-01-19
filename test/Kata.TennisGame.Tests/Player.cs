@@ -18,23 +18,21 @@ namespace Kata.TennisGame.Tests
         {
             var result = new List<string>();
 
-            var cuurentScore = 1;
-
-            for (var currentScore = 0; currentScore < _scores; cuurentScore++)
+            for (var currentScore = 0; currentScore <= _scores; currentScore++)
             {
-                switch (cuurentScore)
+                switch (currentScore)
                 {
                     case 0:
                         result.Add("love");
                         break;
                     case 1:
-                        result.Append("fifteen");
+                        result.Add("fifteen");
                         break;
                     case 2:
-                        result.Append("thirty");
+                        result.Add("thirty");
                         break;
                     case 3:
-                        result.Append("forty");
+                        result.Add("forty");
                         break;
                 }
             }
@@ -47,5 +45,18 @@ namespace Kata.TennisGame.Tests
             _scores += newScore;
         }
 
+        public bool ContainsThirty()
+        {
+            return
+                Scores()
+                    .Any(x => x.ToLower() == "thirty");
+        }
+
+        public bool ContainsForty()
+        {
+            return
+                Scores()
+                    .Any(x => x.ToLower() == "forty");
+        }
     }
 }
