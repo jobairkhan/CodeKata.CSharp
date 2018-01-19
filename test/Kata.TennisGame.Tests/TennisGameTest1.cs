@@ -1,80 +1,64 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using Xunit;
 
 namespace Kata.TennisGame.Tests
 {
     public class TennisGameTest1
     {
+
         private readonly TennisGame _game;
+        private readonly IPlayer _player1;
+        private readonly IPlayer _player2;
 
         public TennisGameTest1()
         {
-            _game = new TennisGame();
+            _player1 = new Player("1");
+            _player2 = new Player("2");
+
+            _game = new TennisGame(_player1, _player2);
         }
 
         [Fact]
-        public void EmptyGameReturnsLove()
+        public void ReturnPlayer1Advantage_WhenPlayerOneScoreOneMore_GivenEachPlayerScoreThreePoints()
         {
-            
-            Assert.Equal("love", _game.Result());
+            Mother.AddSocres(3, _player1);
+            Mother.AddSocres(3, _player2);
+
+            _player1.AddScore(1);
+
+            Assert.Equal("Player1 advantage", _game.Result());
         }
 
-        [Theory]
-        [InlineData(0, "love")]
-        [InlineData(1, "fifteen")]
-        [InlineData(2, "thirty")]
-        [InlineData(3, "forty")]
-        public void WhenSingleScoreAdded_ResultReturnsCorrectly(int score, string described)
-        {
-            _game.AddScore(score);
 
-            Assert.Equal(described, _game.Result());
-        }
+        //[Fact]
+        //public void ReturnPlayer2Advantage_WhenPlayerTwoScoreOneMore_GivenEachPlayerScoreThreePoints()
+        //{
+        //    for (var i = 0; i < 3; i++)
+        //    {
+        //        _game.AddScore(1, 1);
+        //    }
 
-        [Fact]
-        public void Win_EachPlayerScoreThreePoints_WhenPlayerOneScore_ReturnsAdvantage()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _game.AddScore(1, 1);
-            }
+        //    for (var i = 0; i < 3; i++)
+        //    {
+        //        _game.AddScore(1, 2);
+        //    }
 
-            for (int i = 0; i < 3; i++)
-            {
-                _game.AddScore(1, 2);
-            }
+        //    _game.AddScore(1, 2);
 
-            _game.AddScore(1, 1);
+        //    Assert.Equal("Player2 advantage", _game.Result());
 
-            Assert.Equal("advantage", _game.Result());
-        }
+        //}
     }
 
-    public class TennisGame
+    public static class Mother
     {
-        private readonly List<int> _scores = new List<int>();
-
-        public void AddScore(int score,)
+        public static void AddSocres(int score, IPlayer player)
         {
-            _scores.Add(score);
-        }
-
-        public string Result()
-        {
-            var cuurentScore = _scores.Sum();
-            switch (cuurentScore)
+            for (var i = 0; i < score; i++)
             {
-                case 1:
-                    return "fifteen";
-                case 2:
-                    return "thirty";
-                case 3:
-                    return "forty";
+                player.AddScore();
             }
-
-            return "love";
         }
     }
 }
