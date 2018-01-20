@@ -5,7 +5,7 @@ namespace Kata.TennisGame.Tests
 {
     public class Player : IPlayer
     {
-        private int _scores;
+        private int _scored;
 
         public Player(string name)
         {
@@ -14,27 +14,26 @@ namespace Kata.TennisGame.Tests
 
         public string Name { get; }
 
-        public List<string> Scores()
-        {
-            var result = new List<string>();
+        public int TotalScore => _scored;
 
-            for (var currentScore = 0; currentScore <= _scores; currentScore++)
+        public string Scores()
+        {
+            var result = "";
+
+            switch (_scored)
             {
-                switch (currentScore)
-                {
-                    case 0:
-                        result.Add("love");
-                        break;
-                    case 1:
-                        result.Add("fifteen");
-                        break;
-                    case 2:
-                        result.Add("thirty");
-                        break;
-                    case 3:
-                        result.Add("forty");
-                        break;
-                }
+                case 0:
+                    result = "love";
+                    break;
+                case 1:
+                    result = "fifteen";
+                    break;
+                case 2:
+                    result = "thirty";
+                    break;
+                case 3:
+                    result = "forty";
+                    break;
             }
 
             return result;
@@ -42,21 +41,12 @@ namespace Kata.TennisGame.Tests
 
         public void AddScore(int newScore = 1)
         {
-            _scores += newScore;
+            _scored += newScore;
         }
 
-        public bool ContainsThirty()
+        public bool IsEqualOrMoreThanThirty()
         {
-            return
-                Scores()
-                    .Any(x => x.ToLower() == "thirty");
-        }
-
-        public bool ContainsForty()
-        {
-            return
-                Scores()
-                    .Any(x => x.ToLower() == "forty");
+            return _scored >= 3;
         }
     }
 }
