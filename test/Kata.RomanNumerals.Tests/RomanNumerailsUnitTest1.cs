@@ -16,7 +16,7 @@ namespace Kata.RomanNumerals.Tests
         [InlineData(5, "V")]
         [InlineData(6, "VI")]
         [InlineData(7, "VII")]
-        [InlineData(8, "IIX")]
+        [InlineData(8, "VIII")]
         [InlineData(9, "IX")]
         [InlineData(10, "X")]
         [InlineData(21, "XXI")]
@@ -48,11 +48,15 @@ namespace Kata.RomanNumerals.Tests
             _dictionary = new Dictionary<int, string>{
                 { 1000, "M"},
                 { 500, "D"},
+                { 400, "CD"},
                 { 100, "C"},
+                { 90, "XC"},
                 { 50, "L"},
                 { 10, "X"},
-                {5, "V"},
-                //{1, "I"}
+                { 9, "IX"},
+                { 5, "V"},
+                { 4, "IV"},
+                { 1, "I"}
             };
         }
 
@@ -69,46 +73,17 @@ namespace Kata.RomanNumerals.Tests
                     pair.Key);
             }
 
-            if (remainToConvert <= 3)
-            {
-                result += AddIs(remainToConvert);
-            }
-
             return result;
         }
 
-        private static string AddIs(int numberOfTimes)
-        {
-            return 
-                new string(
-                    'I', 
-                    numberOfTimes);
-        }
-
-        private static string CheckModulus(ref int remainToConvert, string romanValue, int divisibleBy)
+        private static string CheckModulus(ref int remainToConvert, string romanValue, int arabicValue)
         {
             var result = string.Empty;
 
-            while (remainToConvert >= divisibleBy && remainToConvert % divisibleBy >= 0)
+            while (remainToConvert >= arabicValue)
             {
                 result += romanValue;
-                remainToConvert = remainToConvert - divisibleBy;
-            }
-
-            if (remainToConvert >= divisibleBy || remainToConvert == 3) return result;
-
-            for (var i = 1; i <= 2; i++)
-            {
-                if (remainToConvert + i == divisibleBy)
-                {
-                    result += romanValue;
-                    if (remainToConvert + i == divisibleBy)
-                    {
-                        result = AddIs(i) + result;
-                        remainToConvert = 0;
-                        break;
-                    }
-                }
+                remainToConvert = remainToConvert - arabicValue;
             }
 
             return result;
