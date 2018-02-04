@@ -13,24 +13,50 @@ namespace Kata.TennisGame.Tests
 
         public string Result()
         {
-            var result = "";
+            var result = Winner();
 
-            if (_player1.ContainsThirty()
-                && _player2.ContainsThirty())
+            if (!string.IsNullOrWhiteSpace(result)) return result;
+
+            if (BothScoresThirty())
             {
-                result += "advantage";
-
-                if (_player1.ContainsForty())
+                if (EqualScore())
                 {
-                    result = $"Player {_player1.Name} {result}";
-                }
-                else if (_player2.ContainsForty())
-                {
-                    result = $"Player {_player2.Name} {result}";
+                    result = "Deuce";
                 }
             }
-
+            else
+            {
+                result = $"{_player1.Scores()}-{_player2.Scores()}";
+            }
             return result;
+        }
+
+        private bool BothScoresThirty()
+        {
+            return _player1.IsEqualOrMoreThanThirty() && _player2.IsEqualOrMoreThanThirty();
+        }
+
+        private string Winner()
+        {
+            if (_player1.TotalScore == 4)
+            {
+                return BuildWiningResultFor(_player1);
+            }
+            if (_player2.TotalScore == 4)
+            {
+                return BuildWiningResultFor(_player2);
+            }
+            return string.Empty;
+        }
+
+        private string BuildWiningResultFor(IPlayer player)
+        {
+            return $"Player {player.Name} {(BothScoresThirty() ? "advantage" : "winner")}";
+        }
+
+        private bool EqualScore()
+        {
+            return _player1.TotalScore == _player2.TotalScore;
         }
     }
 }

@@ -17,18 +17,19 @@ namespace Kata.TennisGame.Tests
         [Fact]
         public void EmptyGameReturnsLove()
         {
-            Assert.Equal((string) "love", (string) JoinToTest(_player1));
+            Assert.Equal("love", _player1.Scores());
+            Assert.Equal("love", _player2.Scores());
         }
 
         [Theory]
         [InlineData("1", 0, "love")]
-        [InlineData("1", 1, "love fifteen")]
-        [InlineData("1", 2, "love fifteen thirty")]
-        [InlineData("1", 3, "love fifteen thirty forty")]
+        [InlineData("1", 1, "fifteen")]
+        [InlineData("1", 2, "thirty")]
+        [InlineData("1", 3, "forty")]
         [InlineData("2", 0, "love")]
-        [InlineData("2", 1, "love fifteen")]
-        [InlineData("2", 2, "love fifteen thirty")]
-        [InlineData("2", 3, "love fifteen thirty forty")]
+        [InlineData("2", 1, "fifteen")]
+        [InlineData("2", 2, "thirty")]
+        [InlineData("2", 3, "forty")]
         public void WhenScoreAddedForPlayer1_ReturnAllScores(string playerNumber, int score, string expected)
         {
             var player = 
@@ -38,12 +39,7 @@ namespace Kata.TennisGame.Tests
 
             AddSocres(score, player);
             
-            Assert.Equal(expected, JoinToTest(player));
-        }
-        
-        private static string JoinToTest(IPlayer player)
-        {
-            return string.Join(" ", player.Scores());
+            Assert.Equal(expected, player.Scores());
         }
     }
 }

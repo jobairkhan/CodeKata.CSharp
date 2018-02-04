@@ -6,11 +6,12 @@ namespace Kata.TennisGame.Tests
     {
         string Name { get; }
 
-        List<string> Scores();
+        int TotalScore { get; }
+
+        string Scores();
 
         void AddScore(int newScore = 1);
 
-        bool ContainsThirty();
-        bool ContainsForty();
+        bool IsEqualOrMoreThanThirty();
     }
 }
