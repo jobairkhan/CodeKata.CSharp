@@ -38,12 +38,6 @@ namespace Kata.MarsRover.Tests {
 
     }
 
-    public interface IOutputBuilder {
-        void AddResult(string input);
-
-        string Result { get; }
-    }
-
     public class RoverClient {
         private readonly IInputParser _inputParser;
         private readonly IOutputBuilder _outputBuilder;
