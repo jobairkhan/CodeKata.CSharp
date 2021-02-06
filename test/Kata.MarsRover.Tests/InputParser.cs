@@ -20,20 +20,14 @@ namespace Kata.MarsRover.Tests
 
     public class InputParserShould
     {
-        [Fact]
-        public void Return_grid()
+        [Theory]
+        [InlineData("10 5", 10)]
+        [InlineData("5 5", 5)]
+        public void Return_grid_height(string input, int expectedHeight)
         {
             var inputParser = new InputParser();
-            var grid = inputParser.Parse("5 5");
-            grid.Height.Should().Be(5);
-        }
-
-        [Fact]
-        public void Return_grid_height()
-        {
-            var inputParser = new InputParser();
-            var grid = inputParser.Parse("10 5");
-            grid.Height.Should().Be(10);
+            var grid = inputParser.Parse(input);
+            grid.Height.Should().Be(expectedHeight);
         }
     }
 }
