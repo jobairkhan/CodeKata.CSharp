@@ -47,7 +47,7 @@ namespace Kata.MarsRover.Tests {
 
         public string Execute(string input) {
             _inputParser.Parse(input);
-            
+            _outputBuilder.AddResult("");
             return null;
         }
     }
