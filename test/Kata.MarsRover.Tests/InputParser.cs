@@ -1,11 +1,29 @@
 using System;
+using FluentAssertions;
+using Xunit;
 
 namespace Kata.MarsRover.Tests
 {
     public class InputParser : IInputParser {
-        public void Parse(string inputString)
+        public Grid Parse(string inputString)
         {
-            throw new NotImplementedException();
+            return null;
+        }
+    }
+
+    public class Grid
+    {
+        public int Height { get; set; }
+    }
+
+    public class InputParserShould
+    {
+        [Fact]
+        public void Return_grid()
+        {
+            var inputParser = new InputParser();
+            var grid = inputParser.Parse("5 5");
+            grid.Height.Should().Be(5);
         }
     }
 }
