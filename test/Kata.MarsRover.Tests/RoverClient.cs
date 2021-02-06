@@ -15,7 +15,7 @@ namespace Kata.MarsRover.Tests {
             // Act
             roverClient.Execute("input");
             // Assert
-            commandProcessor.Verify(x => x.Parse(It.IsAny<string>()));
+            commandProcessor.Verify(x => x.Parse("input"));
         }
     }
 
@@ -31,11 +31,15 @@ namespace Kata.MarsRover.Tests {
     }
 
     public class RoverClient {
-        public RoverClient(IInputParser inputParser) {
+        private readonly IInputParser _inputParser;
 
+        public RoverClient(IInputParser inputParser)
+        {
+            _inputParser = inputParser;
         }
 
         public string Execute(string input) {
+            _inputParser.Parse(input);
             return null;
         }
     }
