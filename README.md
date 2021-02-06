@@ -5,7 +5,7 @@
 3. [Roman Numerals](https://kata-log.rocks/roman-numerals-kata)
 4. [Tennis Game](https://josepaumard.github.io/katas/intermediate/tennis-kata.html)
 5. [String Calculator](https://kata-log.rocks/string-calculator-kata)
-6. [Mars Rover](https://kata-log.rocks/mars-rover-kata)
+6. [Mars Rover](https://danilsuits.github.io/mars-rover-kata/) or [kata-log](https://kata-log.rocks/mars-rover-kata)
 
 
 
