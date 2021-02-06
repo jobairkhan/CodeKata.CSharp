@@ -3,6 +3,7 @@ using FluentAssertions;
 using Xunit;
 
 namespace Kata.MarsRover.Tests {
+    [Trait("Category", "Unit")]
     public class AcceptanceTest {
         /*
          * 0, 0, N, which means the rover is in the bottom left corner and facing North.
@@ -13,7 +14,7 @@ namespace Kata.MarsRover.Tests {
          * TODO 5: ‘M’ means move forward one grid point
          * TODO 6: Output for each rover should be its final co-ordinates and heading
          */
-        [Fact]
+        [Fact(Skip = "Wait till units are completed")]
         public void Test1()
         {
             var input = @"5 5
@@ -23,7 +24,7 @@ LMLMLMLMM
 MMRMMRMRRM
 
 ";
-            var sut = new RoverClient();
+            var sut = new RoverClient(new InputParser());
 
             var output = sut.Execute(input);
 
@@ -32,11 +33,4 @@ MMRMMRMRRM
         }
     }
 
-    public class RoverClient
-    {
-        public string Execute(string input)
-        {
-            return null;
-        }
-    }
 }
