@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -10,36 +9,45 @@ namespace Kata.MarsRover.Tests {
         [Fact]
         public void Call_input_processor_Given_input_processor_added() {
             // Arrange
-            var commandProcessor = new Mock<IInputParser>();
-            var roverClient = new RoverClient(commandProcessor.Object);
+            var inputParser = new Mock<IInputParser>();
+            var outputBuilder = new Mock<IOutputBuilder>();
+            var roverClient = new RoverClient(inputParser.Object, outputBuilder.Object);
             // Act
             roverClient.Execute("input");
             // Assert
-            commandProcessor.Verify(x => x.Parse("input"));
+            inputParser.Verify(x => x.Parse("input"));
+        }
+
+        [Fact]
+        public void Call_output_processor_Given_output_processor_added() {
+            // Arrange
+            var inputProcessor = new Mock<IInputParser>();
+            var outputBuilder = new Mock<IOutputBuilder>();
+            var roverClient = new RoverClient(inputProcessor.Object, outputBuilder.Object);
+            // Act
+            roverClient.Execute("input");
+            // Assert
+            outputBuilder.Verify(x => x.AddResult(It.IsAny<string>()));
         }
     }
 
-    public interface IInputParser {
-        void Parse(string inputString);
-    }
-
-    public class InputParser : IInputParser {
-        public void Parse(string inputString)
-        {
-            throw new NotImplementedException();
-        }
+    public interface IOutputBuilder {
+        void AddResult(string input);
     }
 
     public class RoverClient {
         private readonly IInputParser _inputParser;
+        private readonly IOutputBuilder _outputBuilder;
 
-        public RoverClient(IInputParser inputParser)
+        public RoverClient(IInputParser inputParser, IOutputBuilder outputBuilder)
         {
             _inputParser = inputParser;
+            _outputBuilder = outputBuilder;
         }
 
         public string Execute(string input) {
             _inputParser.Parse(input);
+            
             return null;
         }
     }
