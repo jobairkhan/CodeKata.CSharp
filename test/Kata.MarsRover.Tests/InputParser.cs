@@ -7,7 +7,9 @@ namespace Kata.MarsRover.Tests
     public class InputParser : IInputParser {
         public Grid Parse(string inputString)
         {
-            return new Grid{Height = 5};
+            var size = inputString.Split(" ");
+            int.TryParse(size[0], out var height);
+            return new Grid{Height = height };
         }
     }
 
@@ -24,6 +26,14 @@ namespace Kata.MarsRover.Tests
             var inputParser = new InputParser();
             var grid = inputParser.Parse("5 5");
             grid.Height.Should().Be(5);
+        }
+
+        [Fact]
+        public void Return_grid_height()
+        {
+            var inputParser = new InputParser();
+            var grid = inputParser.Parse("10 5");
+            grid.Height.Should().Be(10);
         }
     }
 }
