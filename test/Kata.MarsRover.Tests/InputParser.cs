@@ -7,7 +7,7 @@ namespace Kata.MarsRover.Tests
     public class InputParser : IInputParser {
         public Grid Parse(string inputString)
         {
-            return null;
+            return new Grid{Height = 5};
         }
     }
 
