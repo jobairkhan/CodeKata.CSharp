@@ -6,7 +6,7 @@ using static System.Int32;
 
 namespace Kata.MarsRover.Tests {
     public class InputParser : IInputParser {
-        public (Grid, Position) Parse(string inputString) {
+        public (Grid, Position, string) Parse(string inputString) {
             var lines = inputString.Split(Environment.NewLine);
             var size = lines[0].Split(" ");
             TryParse(size[0], out var height);
@@ -16,7 +16,7 @@ namespace Kata.MarsRover.Tests {
             var position = lines[1].Split(" ");
             TryParse(position[0], out var positionX);
             TryParse(position[1], out var positionY);
-            return (new Grid(height, width), new Position(positionX, positionY));
+            return (new Grid(height, width), new Position(positionX, positionY), null);
         }
     }
 
@@ -34,34 +34,34 @@ namespace Kata.MarsRover.Tests {
 
         [Theory, MemberData(nameof(GetInputVerifyHeight))]
         public void Return_grid_with_correct_height(string input, int expectedHeight) {
-            var (grid, _) = _sut.Parse(input);
+            var (grid, _, _) = _sut.Parse(input);
             grid.Height.Should().Be(expectedHeight);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyWidth))]
         public void Return_grid_with_correct_width(string input, int expectedWidth) {
-            var (grid, _) = _sut.Parse(input);
+            var (grid, _, _) = _sut.Parse(input);
             grid.Width.Should().Be(expectedWidth);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionX))]
         public void Return_grid_with_correct_position_x(string input, int expectedX) {
-            var (_, initialPosition) = _sut.Parse(input);
+            var (_, initialPosition, _) = _sut.Parse(input);
             initialPosition.X.Should().Be(expectedX);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionY))]
         public void Return_grid_with_correct_position_y(string input, int expectedY) {
-            var (_, initialPosition) = _sut.Parse(input);
+            var (_, initialPosition, _) = _sut.Parse(input);
             initialPosition.Y.Should().Be(expectedY);
         }
 
-        //[Theory, MemberData(nameof(GetInputVerifyCommands))]
-        //public void Return_grid_with_correct_commands(string input, int expectedY) {
-        //    var inputParser = new InputParser();
-        //    var (_, initialPosition) = inputParser.Parse(input);
-        //    initialPosition.Y.Should().Be(expectedY);
-        //}
+        [Theory, MemberData(nameof(GetInputVerifyCommands))]
+        public void Return_grid_with_correct_commands(string input, string expectedCmdString) {
+            var inputParser = new InputParser();
+            var (_, _, cmd) = inputParser.Parse(input);
+            cmd.Should().Be(expectedCmdString);
+        }
 
         private static string AllOne => "1 1" + Environment.NewLine + "1 1 N";
         private static string AllFive => "5 5" + Environment.NewLine + "5 5 N";
@@ -92,6 +92,10 @@ namespace Kata.MarsRover.Tests {
             yield return new object[] { AllFive, 5 };
             yield return new object[] { AllTen, 10 };
             yield return new object[] { Random, 0 };
+        }
+        
+        public static IEnumerable<object[]> GetInputVerifyCommands() {
+            yield return new object[] { AllOne, "LRM" };
         }
     }
 }
