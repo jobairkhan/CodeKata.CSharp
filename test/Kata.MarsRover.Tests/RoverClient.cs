@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -81,8 +80,8 @@ namespace Kata.MarsRover.Tests {
             _sut.Execute("input");
             _roverBuilder.Verify(x => x.Build(), Times.Once);
         }
-
-        private static (Grid, RoverData[]) ParsedData()
+        
+        private static (Grid, RoverData[]) ParsedData(string commands = "RRR")
         {
             return (new Grid(5, 5), 
                 new []
@@ -90,41 +89,8 @@ namespace Kata.MarsRover.Tests {
                     new RoverData(
                         new Position(0,0), 
                         Compass.N,
-                        "RRR")
+                        commands)
                 });
-        }
-    }
-
-    public interface IBuildRover
-    {
-        IBuildRover WithGrid(Grid grid);
-        IBuildRover WithPosition(Position position);
-        IBuildRover WithFacing(Compass compass);
-        Rover Build();
-    }
-
-    public class Rover
-    {
-    }
-
-    public class RoverBuilder : IBuildRover {
-        public IBuildRover WithGrid(Grid grid) {
-            throw new NotImplementedException();
-        }
-
-        public IBuildRover WithPosition(Position position)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBuildRover WithFacing(Compass compass)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Rover Build()
-        {
-            throw new NotImplementedException();
         }
     }
 
