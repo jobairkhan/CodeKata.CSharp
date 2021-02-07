@@ -67,7 +67,9 @@ namespace Kata.MarsRover.Tests {
         private static string AllOne => "1 1" + Environment.NewLine + "1 1 N" + Environment.NewLine + "LRM";
         private static string AllFive => "5 5" + Environment.NewLine + "5 5 N" + Environment.NewLine + "RRR";
         private static string AllTen => "10 10" + Environment.NewLine + "10 10 N" + Environment.NewLine + "LLL";
-        private static string Random => "1 5" + Environment.NewLine + "0 0 N" + Environment.NewLine + "MMM";
+        private static string Random => "1 5" 
+                                        + Environment.NewLine + "0 0 N" + Environment.NewLine + "RRM" 
+                                        + Environment.NewLine + "1 1 N" + Environment.NewLine + "LLM";
         public static IEnumerable<object[]> GetInputVerifyHeight() {
             yield return new object[] { AllOne, 1 };
             yield return new object[] { AllFive, 5 };
