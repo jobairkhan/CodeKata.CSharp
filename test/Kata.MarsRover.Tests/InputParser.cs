@@ -15,18 +15,13 @@ namespace Kata.MarsRover.Tests {
             
             var position = lines[1].Split(" ");
             TryParse(position[0], out var positionX);
-            return (new Grid { Height = height, Width = width }, new Position { X = positionX });
+            return (new Grid(height, width), new Position(positionX));
         }
     }
 
-    public class Position {
-        public int X { get; set; }
-    }
+    public record Position(int x);
 
-    public class Grid {
-        public int Height { get; set; }
-        public int Width { get; set; }
-    }
+    public record Grid(int height, int width);
 
     public class InputParserShould {
 
@@ -34,21 +29,21 @@ namespace Kata.MarsRover.Tests {
         public void Return_grid_with_correct_height(string input, int expectedHeight) {
             var inputParser = new InputParser();
             var (grid, _) = inputParser.Parse(input);
-            grid.Height.Should().Be(expectedHeight);
+            grid.height.Should().Be(expectedHeight);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyWidth))]
         public void Return_grid_with_correct_width(string input, int expectedWidth) {
             var inputParser = new InputParser();
             var (grid, _) = inputParser.Parse(input);
-            grid.Width.Should().Be(expectedWidth);
+            grid.width.Should().Be(expectedWidth);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionX))]
         public void Return_grid_with_correct_position(string input, int expectedX) {
             var inputParser = new InputParser();
             var (_, initialPosition) = inputParser.Parse(input);
-            initialPosition.X.Should().Be(expectedX);
+            initialPosition.x.Should().Be(expectedX);
         }
 
         public static IEnumerable<object[]> GetInputVerifyHeight() {
