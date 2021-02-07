@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -66,6 +65,15 @@ namespace Kata.MarsRover.Tests {
         }
 
         [Fact]
+        public void Should_build_rover_with_compass()
+        {
+            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
+                .Returns(ParsedData());
+            _sut.Execute("input");
+            _roverBuilder.Verify(x => x.WithFacing(It.IsAny<Compass>()), Times.Once);
+        }
+
+        [Fact]
         public void Should_build_rover()
         {
             _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
@@ -91,6 +99,7 @@ namespace Kata.MarsRover.Tests {
     {
         IBuildRover WithGrid(Grid grid);
         IBuildRover WithPosition(Position position);
+        IBuildRover WithFacing(Compass compass);
         Rover Build();
     }
 
@@ -104,6 +113,11 @@ namespace Kata.MarsRover.Tests {
         }
 
         public IBuildRover WithPosition(Position position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBuildRover WithFacing(Compass compass)
         {
             throw new NotImplementedException();
         }
@@ -131,6 +145,7 @@ namespace Kata.MarsRover.Tests {
             {
                 _roverBuilder.WithGrid(grid);
                 _roverBuilder.WithPosition(roverData.Position);
+                _roverBuilder.WithFacing(roverData.Direction);
                 var rover = _roverBuilder.Build();
             }
             _outputBuilder.AddResult("");
