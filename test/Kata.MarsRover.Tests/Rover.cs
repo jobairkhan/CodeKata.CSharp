@@ -16,10 +16,15 @@ namespace Kata.MarsRover.Tests {
 
         public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_direction}";
 
-        public void Go(char command)
-        {
-            switch (command)
-            {
+        /// <summary>
+        /// Execute commands 
+        /// TODO: Add Validations
+        /// </summary>
+        /// <param name="commands"></param>
+        public void Go(string commands) {
+            var command = commands[0];
+
+            switch (command) {
                 case 'R':
                     _direction = _direction.GoRight();
                     break;
@@ -44,7 +49,7 @@ namespace Kata.MarsRover.Tests {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(0, 0),
                                   Direction.Create(compass));
-            rover.Go('R');
+            rover.Go("R");
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
@@ -59,12 +64,12 @@ namespace Kata.MarsRover.Tests {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(0, 0),
                                   Direction.Create(compass));
-            rover.Go('L');
+            rover.Go("L");
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
         }
-        
+
         [Theory]
         [InlineData(0, 0, "1 0 E")]
         [InlineData(1, 0, "2 0 E")]
@@ -73,7 +78,7 @@ namespace Kata.MarsRover.Tests {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
                                   Direction.Create(Compass.E));
-            rover.Go('M');
+            rover.Go("M");
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
@@ -87,7 +92,7 @@ namespace Kata.MarsRover.Tests {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
                                   Direction.Create(Compass.W));
-            rover.Go('M');
+            rover.Go("M");
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
@@ -101,7 +106,7 @@ namespace Kata.MarsRover.Tests {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
                                   Direction.Create(Compass.N));
-            rover.Go('M');
+            rover.Go("M");
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
@@ -115,10 +120,23 @@ namespace Kata.MarsRover.Tests {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
                                   Direction.Create(Compass.S));
-            rover.Go('M');
+            rover.Go("M");
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
+        }
+
+        [Fact]
+        public void Process_all_commands() {
+            var rover = new Rover(new Grid(5, 5),
+                new Position(3, 3),
+                Direction.Create(Compass.N));
+
+            rover.Go("RRMLM");
+
+            rover.CurrentLocation
+                .Should()
+                .Be("4 2 E");
         }
     }
 }
