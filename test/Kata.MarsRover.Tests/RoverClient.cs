@@ -46,7 +46,7 @@ namespace Kata.MarsRover.Tests {
 
 
         [Fact]
-        public void Should_build_rover_with_grid()
+        public void Build_rover_with_grid()
         {
             _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
                 .Returns(ParsedData());
@@ -55,7 +55,7 @@ namespace Kata.MarsRover.Tests {
         }
 
         [Fact]
-        public void Should_build_rover_with_position()
+        public void Build_rover_with_position()
         {
             _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
                 .Returns(ParsedData());
@@ -64,7 +64,7 @@ namespace Kata.MarsRover.Tests {
         }
 
         [Fact]
-        public void Should_build_rover_with_compass()
+        public void Build_rover_with_compass()
         {
             _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
                 .Returns(ParsedData());
@@ -73,14 +73,14 @@ namespace Kata.MarsRover.Tests {
         }
 
         [Fact]
-        public void Should_build_rover()
+        public void Build_rover()
         {
             _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
                 .Returns(ParsedData());
             _sut.Execute("input");
             _roverBuilder.Verify(x => x.Build(), Times.Once);
         }
-        
+
         private static (Grid, RoverData[]) ParsedData(string commands = "RRR")
         {
             return (new Grid(5, 5), 
