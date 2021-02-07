@@ -17,24 +17,46 @@ namespace Kata.MarsRover.Tests {
         public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_facing}";
 
         public void Go(char command) {
-            if (command == 'R') {
-                _facing = _facing switch {
-                    Compass.N => Compass.E,
-                    Compass.E => Compass.S,
-                    Compass.S => Compass.W,
-                    Compass.W => Compass.N,
-                    _ => _facing
-                };
+            if (command == 'R')
+            {
+                GoRight();
             }
-            else if (command == 'L') {
-                _facing = _facing switch {
-                    Compass.N => Compass.W,
-                    Compass.W => Compass.S,
-                    Compass.S => Compass.E,
-                    Compass.E => Compass.N,
-                    _ => _facing
-                };
+            else if (command == 'L')
+            {
+                GoLeft();
             }
+        }
+
+        private void GoLeft()
+        {
+            _facing = _facing switch
+            {
+                Compass.N => Compass.W,
+                Compass.W => Compass.S,
+                Compass.S => Compass.E,
+                Compass.E => Compass.N,
+                _ => _facing
+            };
+        }
+
+        private void GoRight()
+        {
+            _facing = _facing switch
+            {
+                Compass.N => Compass.E,
+                Compass.E => Compass.S,
+                Compass.S => Compass.W,
+                Compass.W => Compass.N,
+                _ => _facing
+            };
+        }
+    }
+
+    public class Direction {
+        private readonly Compass _current;
+
+        public Direction(Compass current) {
+            _current = current;
         }
     }
 
