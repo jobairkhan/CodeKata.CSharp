@@ -25,34 +25,43 @@ namespace Kata.MarsRover.Tests {
     public record Grid(int Height, int Width);
 
     public class InputParserShould {
+        private readonly InputParser _sut;
+
+        public InputParserShould()
+        {
+            _sut = new InputParser();
+        }
 
         [Theory, MemberData(nameof(GetInputVerifyHeight))]
         public void Return_grid_with_correct_height(string input, int expectedHeight) {
-            var inputParser = new InputParser();
-            var (grid, _) = inputParser.Parse(input);
+            var (grid, _) = _sut.Parse(input);
             grid.Height.Should().Be(expectedHeight);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyWidth))]
         public void Return_grid_with_correct_width(string input, int expectedWidth) {
-            var inputParser = new InputParser();
-            var (grid, _) = inputParser.Parse(input);
+            var (grid, _) = _sut.Parse(input);
             grid.Width.Should().Be(expectedWidth);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionX))]
         public void Return_grid_with_correct_position_x(string input, int expectedX) {
-            var inputParser = new InputParser();
-            var (_, initialPosition) = inputParser.Parse(input);
+            var (_, initialPosition) = _sut.Parse(input);
             initialPosition.X.Should().Be(expectedX);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionY))]
         public void Return_grid_with_correct_position_y(string input, int expectedY) {
-            var inputParser = new InputParser();
-            var (_, initialPosition) = inputParser.Parse(input);
+            var (_, initialPosition) = _sut.Parse(input);
             initialPosition.Y.Should().Be(expectedY);
         }
+
+        //[Theory, MemberData(nameof(GetInputVerifyCommands))]
+        //public void Return_grid_with_correct_commands(string input, int expectedY) {
+        //    var inputParser = new InputParser();
+        //    var (_, initialPosition) = inputParser.Parse(input);
+        //    initialPosition.Y.Should().Be(expectedY);
+        //}
 
         private static string AllOne => "1 1" + Environment.NewLine + "1 1 N";
         private static string AllFive => "5 5" + Environment.NewLine + "5 5 N";
