@@ -15,8 +15,8 @@ namespace Kata.MarsRover.Tests {
             
             var position = lines[1].Split(" ");
             TryParse(position[0], out var positionX);
-            //TryParse(position[1], out var positionY);
-            return (new Grid(height, width), new Position(positionX, 0));
+            TryParse(position[1], out var positionY);
+            return (new Grid(height, width), new Position(positionX, positionY));
         }
     }
 
