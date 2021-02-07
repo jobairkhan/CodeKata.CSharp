@@ -17,6 +17,30 @@ namespace Kata.MarsRover.Tests {
             _outputBuilder = new Mock<IOutputBuilder>();
 
             _sut = new RoverClient(_inputParser.Object, _roverBuilder.Object, _outputBuilder.Object);
+
+            _inputParser
+                .Setup(x => x.Parse(It.IsAny<string>()))
+                .Returns(ParsedData());
+            _roverBuilder
+                .Setup(x => x.WithGrid(It.IsAny<Grid>()))
+                .Returns(_roverBuilder.Object);
+            _roverBuilder
+                .Setup(x => x.WithPosition(It.IsAny<Position>()))
+                .Returns(_roverBuilder.Object);
+            _roverBuilder
+                .Setup(x => x.WithFacing(It.IsAny<Compass>()))
+                .Returns(_roverBuilder.Object);
+            _roverBuilder
+                .Setup(x => x.Build())
+                .Returns(GetRover());
+        }
+
+        private static Rover GetRover()
+        {
+            var rover = new Rover(new Grid(10, 10),
+                new Position(0, 0),
+                Direction.Create());
+            return rover;
         }
 
         [Fact]
@@ -29,6 +53,9 @@ namespace Kata.MarsRover.Tests {
 
         [Fact]
         public void Call_output_processor_Given_output_processor_added() {
+            _inputParser
+                .Setup(x => x.Parse(It.IsAny<string>()))
+                .Returns(ParsedData());
             _sut.Execute("input");
             _outputBuilder
                 .Verify(x => x.AddResult(It.IsAny<string>()),
@@ -39,7 +66,9 @@ namespace Kata.MarsRover.Tests {
         [InlineData("output")]
         [InlineData("result")]
         public void Return_output_processor_result(string expected) {
-            _outputBuilder.Setup(x => x.Result).Returns(expected);
+            _outputBuilder
+                .Setup(x => x.Result).Returns(expected);
+
             var actual = _sut.Execute("input");
             actual.Should().Be(expected);
         }
@@ -48,17 +77,13 @@ namespace Kata.MarsRover.Tests {
         [Fact]
         public void Build_rover_with_grid()
         {
-            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
-                .Returns(ParsedData());
             _sut.Execute("input");
-            _roverBuilder.Verify(x => x.WithGrid(It.IsAny<Grid>()), Times.Once);
+            _roverBuilder.Verify(x => x.WithGrid(It.IsAny<Grid>()), Times.AtLeastOnce);
         }
 
         [Fact]
         public void Build_rover_with_position()
-        {
-            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
-                .Returns(ParsedData());
+        {                               
             _sut.Execute("input");
             _roverBuilder.Verify(x => x.WithPosition(It.IsAny<Position>()), Times.Once);
         }
@@ -66,8 +91,6 @@ namespace Kata.MarsRover.Tests {
         [Fact]
         public void Build_rover_with_compass()
         {
-            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
-                .Returns(ParsedData());
             _sut.Execute("input");
             _roverBuilder.Verify(x => x.WithFacing(It.IsAny<Compass>()), Times.Once);
         }
@@ -75,10 +98,21 @@ namespace Kata.MarsRover.Tests {
         [Fact]
         public void Build_rover()
         {
-            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
-                .Returns(ParsedData());
             _sut.Execute("input");
             _roverBuilder.Verify(x => x.Build(), Times.Once);
+        }
+
+        [Fact, Trait("Category", "Acceptance")]
+        public void Pass_command_to_Rovers() {
+
+            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
+                .Returns(ParsedData("RMMM"));
+
+            var roverClient = new RoverClient(_inputParser.Object, new RoverBuilder(), new StringOutputBuilder());
+
+            var output = roverClient.Execute("ignoreMe");
+
+            output.Should().Be(@"3 0 E");
         }
 
         private static (Grid, RoverData[]) ParsedData(string commands = "RRR")
@@ -109,12 +143,19 @@ namespace Kata.MarsRover.Tests {
             var (grid, lst) = _inputParser.Parse(input);
             foreach (var roverData in lst)
             {
-                _roverBuilder.WithGrid(grid);
-                _roverBuilder.WithPosition(roverData.Position);
-                _roverBuilder.WithFacing(roverData.Direction);
-                var rover = _roverBuilder.Build();
+                var d = _roverBuilder
+                    .WithGrid(grid);
+                var g = d.WithGrid(grid);
+                var rover = _roverBuilder
+                    .WithGrid(grid)
+                    .WithPosition(roverData.Position)
+                    .WithFacing(roverData.Direction)
+                    .Build();
+
+                rover.Go(roverData.Commands);
+                _outputBuilder.AddResult(rover.CurrentLocation);
             }
-            _outputBuilder.AddResult("");
+            
             return _outputBuilder.Result;
         }
     }

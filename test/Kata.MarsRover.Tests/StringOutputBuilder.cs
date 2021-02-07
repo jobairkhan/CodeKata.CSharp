@@ -15,6 +15,7 @@ namespace Kata.MarsRover.Tests {
         }
 
         public void AddResult(string result) {
+            // TODO: if result is empty do noting
             if (_sbResult.Length > 0)
             {
                 _sbResult.AppendLine();

@@ -36,6 +36,6 @@ namespace Kata.MarsRover.Tests
             return _current.ToString(); 
         }
 
-        public static Direction Create(Compass compass) => new Direction(compass);
+        public static Direction Create(Compass compass = Compass.N) => new Direction(compass);
     }
 }
