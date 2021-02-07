@@ -7,7 +7,7 @@ namespace Kata.MarsRover.Tests {
     public class AcceptanceTest {
         /*
          * 0, 0, N, which means the rover is in the bottom left corner and facing North.
-         * TODO : InputParser should return rover
+         * TODO : InputParser should return grid initialPosition commands
          * TODO : RoverClient should ask rover to follow all command
          * TODO 1: The first line of input is the upper-right coordinates of the plateau - Grid Size
          * TODO 2: Each rover has two lines of input, The first line gives the rover’s position, and the second line is a series of instructions telling the rover how to explore the plateau. 

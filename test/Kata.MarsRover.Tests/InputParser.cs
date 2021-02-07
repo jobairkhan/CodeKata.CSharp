@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 using static System.Int32;
@@ -6,13 +7,18 @@ using static System.Int32;
 namespace Kata.MarsRover.Tests
 {
     public class InputParser : IInputParser {
-        public Grid Parse(string inputString)
+        public (Grid, Position) Parse(string inputString)
         {
             var size = inputString.Split(" ");
             TryParse(size[0], out var height);
             TryParse(size[1], out var width);
-            return new Grid{Height = height, Width = width };
+            return (new Grid{Height = height, Width = width }, new Position());
         }
+    }
+
+    public class Position
+    {
+        public int X { get; set; }
     }
 
     public class Grid
@@ -29,7 +35,7 @@ namespace Kata.MarsRover.Tests
         public void Return_grid_with_correct_height(string input, int expectedHeight)
         {
             var inputParser = new InputParser();
-            var grid = inputParser.Parse(input);
+            var (grid, _) = inputParser.Parse(input);
             grid.Height.Should().Be(expectedHeight);
         }
 
@@ -39,8 +45,21 @@ namespace Kata.MarsRover.Tests
         public void Return_grid_with_correct_width(string input, int expectedWidth)
         {
             var inputParser = new InputParser();
-            var grid = inputParser.Parse(input);
+            var (grid, _) = inputParser.Parse(input);
             grid.Width.Should().Be(expectedWidth);
+        }
+
+        [Theory, MemberData(nameof(GetInput))]
+        public void Return_grid_with_correct_position(string input, int expectedX)
+        {
+            var inputParser = new InputParser();
+            var (_, initialPosition) = inputParser.Parse(input);
+            initialPosition.X.Should().Be(expectedX);
+        }
+
+        public static IEnumerable<object[]> GetInput()
+        {
+            yield return new object[] {"1 1" + Environment.NewLine + "1 0 N", 1};
         }
     }
 }
