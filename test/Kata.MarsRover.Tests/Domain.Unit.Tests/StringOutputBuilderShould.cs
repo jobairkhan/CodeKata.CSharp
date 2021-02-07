@@ -1,30 +1,10 @@
 using System;
-using System.Text;
 using FluentAssertions;
+using Kata.MarsRover.Tests.Domain.OutputBuilder;
 using Xunit;
-namespace Kata.MarsRover.Tests {
-    public class StringOutputBuilder : IOutputBuilder
-    {
-        public string Result => _sbResult.ToString();
 
-        private readonly StringBuilder _sbResult;
-
-        public StringOutputBuilder()
-        {
-            _sbResult = new StringBuilder();
-        }
-
-        public void AddResult(string result) {
-            // TODO: if result is empty do noting
-            if (_sbResult.Length > 0)
-            {
-                _sbResult.AppendLine();
-            }
-
-            _sbResult.Append(result);
-        }
-    }
-
+namespace Kata.MarsRover.Tests.Domain.Unit.Tests
+{
     public class StringOutputBuilderShould {
         [Fact]
         public void Add_to_result() {

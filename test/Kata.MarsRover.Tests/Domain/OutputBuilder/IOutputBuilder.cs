@@ -1,4 +1,4 @@
-namespace Kata.MarsRover.Tests
+namespace Kata.MarsRover.Tests.Domain.OutputBuilder
 {
     public interface IOutputBuilder {
         void AddResult(string result);

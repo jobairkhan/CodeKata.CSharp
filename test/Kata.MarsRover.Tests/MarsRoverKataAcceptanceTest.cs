@@ -1,10 +1,14 @@
 using System;
 using FluentAssertions;
+using Kata.MarsRover.Tests.Domain;
+using Kata.MarsRover.Tests.Domain.InputParser;
+using Kata.MarsRover.Tests.Domain.OutputBuilder;
+using Kata.MarsRover.Tests.Domain.RoverBuilder;
 using Xunit;
 
 namespace Kata.MarsRover.Tests {
     [Trait("Category", "Unit")]
-    public class AcceptanceTest {
+    public class MarsRoverKataAcceptanceTest {
         /*
          * 0, 0, N, which means the rover is in the bottom left corner and facing North.
          * TODO [X]: InputParser should return grid initialPosition commands
@@ -16,9 +20,11 @@ namespace Kata.MarsRover.Tests {
          * TODO [X]: ‘M’ means move forward one grid point
          * TODO [X]: Output for each rover should be its final co-ordinates and heading
          * TODO [X]: RoverBuilder should create rover with all values
+         * TODO [ ]: Validations
+         * TODO [ ]: Apply State design pattern
          */
         [Fact()]
-        public void Test1()
+        public void FinalCoordinatesAndHeading()
         {
             var input = @"5 5
 1 2 N

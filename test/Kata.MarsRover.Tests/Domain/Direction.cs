@@ -1,4 +1,4 @@
-namespace Kata.MarsRover.Tests
+namespace Kata.MarsRover.Tests.Domain
 {
     public class Direction {
         private readonly Compass _current;

@@ -1,8 +1,6 @@
-using System;
-using FluentAssertions;
-using Xunit;
+using Kata.MarsRover.Tests.Domain.ValueObject;
 
-namespace Kata.MarsRover.Tests
+namespace Kata.MarsRover.Tests.Domain.RoverBuilder
 {
     public class RoverBuilder : IBuildRover {
         private readonly Grid _grid;
@@ -38,39 +36,6 @@ namespace Kata.MarsRover.Tests
         public Rover Build()
         {
             return new Rover(_grid, _position, Direction.Create(_compass));
-        }
-    }
-
-    public class RoverBuilderShould
-    {
-        private readonly RoverBuilder _sut;
-        private readonly Rover _rover;
-
-        public RoverBuilderShould()
-        {
-            _sut = new RoverBuilder();
-            _rover = _sut
-                .WithGrid(new Grid(10, 10))
-                .WithFacing(Compass.N)
-                .WithPosition(new Position(1, 1))
-                .Build();
-        }
-
-        [Fact]
-        public void Not_return_nothing()
-        {
-            _rover              
-                .Should()
-                .NotBeNull();
-        }
-    
-        [Fact]
-        public void Set_initial_location()
-        {
-            _rover
-                .CurrentLocation
-                .Should()
-                .Be("1 1 N");
         }
     }
 }

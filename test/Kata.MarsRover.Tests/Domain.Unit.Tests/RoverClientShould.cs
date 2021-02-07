@@ -1,8 +1,13 @@
 using FluentAssertions;
+using Kata.MarsRover.Tests.Domain.InputParser;
+using Kata.MarsRover.Tests.Domain.OutputBuilder;
+using Kata.MarsRover.Tests.Domain.RoverBuilder;
+using Kata.MarsRover.Tests.Domain.ValueObject;
 using Moq;
 using Xunit;
 
-namespace Kata.MarsRover.Tests {
+namespace Kata.MarsRover.Tests.Domain.Unit.Tests
+{
     [Trait("Category", "Unit")]
 
     public class RoverClientShould {
@@ -59,7 +64,7 @@ namespace Kata.MarsRover.Tests {
             _sut.Execute("input");
             _outputBuilder
                 .Verify(x => x.AddResult(It.IsAny<string>()),
-                Times.Once);
+                    Times.Once);
         }
 
         [Theory]
@@ -108,7 +113,7 @@ namespace Kata.MarsRover.Tests {
             _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
                 .Returns(ParsedData("RMMM"));
 
-            var roverClient = new RoverClient(_inputParser.Object, new RoverBuilder(), new StringOutputBuilder());
+            var roverClient = new RoverClient(_inputParser.Object, new RoverBuilder.RoverBuilder(), new StringOutputBuilder());
 
             var output = roverClient.Execute("ignoreMe");
 
@@ -127,34 +132,4 @@ namespace Kata.MarsRover.Tests {
                 });
         }
     }
-
-    public class RoverClient {
-        private readonly IInputParser _inputParser;
-        private readonly IBuildRover _roverBuilder;
-        private readonly IOutputBuilder _outputBuilder;
-
-        public RoverClient(IInputParser inputParser, IBuildRover roverBuilder, IOutputBuilder outputBuilder) {
-            _inputParser = inputParser;
-            _roverBuilder = roverBuilder;
-            _outputBuilder = outputBuilder;
-        }
-
-        public string Execute(string input) {
-            var (grid, lst) = _inputParser.Parse(input);
-            foreach (var roverData in lst)
-            {
-                var rover = _roverBuilder
-                    .WithGrid(grid)
-                    .WithPosition(roverData.Position)
-                    .WithFacing(roverData.Direction)
-                    .Build();
-
-                rover.Go(roverData.Commands);
-                _outputBuilder.AddResult(rover.CurrentLocation);
-            }
-            
-            return _outputBuilder.Result;
-        }
-    }
-
 }

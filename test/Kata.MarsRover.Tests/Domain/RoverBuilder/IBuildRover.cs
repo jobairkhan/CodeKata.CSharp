@@ -1,4 +1,6 @@
-namespace Kata.MarsRover.Tests
+using Kata.MarsRover.Tests.Domain.ValueObject;
+
+namespace Kata.MarsRover.Tests.Domain.RoverBuilder
 {
     public interface IBuildRover
     {
