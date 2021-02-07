@@ -37,12 +37,25 @@ namespace Kata.MarsRover.Tests
         [InlineData(Compass.N, "0 0 E")]
         [InlineData(Compass.E, "0 0 S")]
         [InlineData(Compass.S, "0 0 W")]
-        public void Go_right_when_command_R(Compass init, string expected)
+        public void Go_right_when_command_is_R(Compass init, string expected)
         {
             var rover = new Rover(new Grid(5, 5), 
                                   new Position(0, 0), 
                                   init);
             rover.Go("R");
+            rover.CurrentLocation
+                .Should()
+                .Be(expected);
+        }
+        
+        [Theory]
+        [InlineData(Compass.N, "0 0 L")]
+        public void Go_left_when_command_is_L(Compass init, string expected)
+        {
+            var rover = new Rover(new Grid(5, 5), 
+                                  new Position(0, 0), 
+                                  init);
+            rover.Go("L");
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
