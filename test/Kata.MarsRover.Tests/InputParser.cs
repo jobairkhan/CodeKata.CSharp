@@ -54,18 +54,24 @@ namespace Kata.MarsRover.Tests {
     public record Grid(int Height, int Width) {
         public Position NextPosition(Position coordinates, Compass direction) {
             var (x, y) = coordinates;
-            if (direction.ToString() == Compass.E.ToString()) {
-                x = (x + 1) % (Width);
+            switch (direction)
+            {
+                case Compass.N:
+                    y = (y + 1) % Height;
+                    break;
+                case Compass.E:
+                    x = (x + 1) % (Width);
+                    break;
+                case Compass.S:
+                    y = y > 0 ? y - 1 : Height - 1;
+                    break;
+                case Compass.W:
+                    x = x > 0 ? x - 1 : Width - 1;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
-            else if (direction.ToString() == Compass.W.ToString()) {
-                x = x > 0 ? x - 1 : Width - 1;
-            }
-            else if (direction.ToString() == Compass.N.ToString()) {
-                y = (y + 1) % Height;
-            }
-            else if (direction.ToString() == Compass.S.ToString()) {
-                y = y > 0 ? y - 1 : Height - 1;
-            }
+            
             return new Position(x, y); ;
         }
     }
