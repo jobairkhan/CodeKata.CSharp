@@ -56,15 +56,49 @@ namespace Kata.MarsRover.Tests {
             _roverBuilder.Verify(x => x.WithGrid(It.IsAny<Grid>()), Times.Once);
         }
 
+        [Fact]
+        public void Should_build_rover_with_position()
+        {
+            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
+                .Returns((new Grid(5, 5), new []{ (new Position(0,0), "RRR")}));
+            _sut.Execute("input");
+            _roverBuilder.Verify(x => x.WithPosition(It.IsAny<Position>()), Times.Once);
+        }
+
+        [Fact]
+        public void Should_build_rover()
+        {
+            _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
+                .Returns((new Grid(5, 5), new []{ (new Position(0,0), "RRR")}));
+            _sut.Execute("input");
+            _roverBuilder.Verify(x => x.Build(), Times.Once);
+        }
+
     }
 
     public interface IBuildRover
     {
         IBuildRover WithGrid(Grid grid);
+        IBuildRover WithPosition(Position position);
+        Rover Build();
+    }
+
+    public class Rover
+    {
     }
 
     public class RoverBuilder : IBuildRover {
         public IBuildRover WithGrid(Grid grid) {
+            throw new NotImplementedException();
+        }
+
+        public IBuildRover WithPosition(Position position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Rover Build()
+        {
             throw new NotImplementedException();
         }
     }
@@ -85,6 +119,8 @@ namespace Kata.MarsRover.Tests {
             foreach (var (pos, cmd) in lst)
             {
                 _roverBuilder.WithGrid(grid);
+                _roverBuilder.WithPosition(pos);
+                var rover = _roverBuilder.Build();
             }
             _outputBuilder.AddResult("");
             return _outputBuilder.Result;
