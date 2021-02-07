@@ -61,7 +61,7 @@ namespace Kata.MarsRover.Tests {
                 x = x > 0 ? x - 1 : Width - 1;
             }
             else if (direction.ToString() == Compass.N.ToString()) {
-                y = y + 1;
+                y = (y + 1) % Height;
             }
             return new Position(x, y); ;
         }
