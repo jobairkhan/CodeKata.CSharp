@@ -17,13 +17,15 @@ namespace Kata.MarsRover.Tests {
         public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_direction}";
 
         public void Go(char command) {
-            if (command == 'R')
-            {
+            if (command == 'R') {
                 _direction = _direction.GoRight();
             }
-            else if (command == 'L')
-            {
+            else if (command == 'L') {
                 _direction = _direction.GoLeft();
+            }
+            else if (command == 'M')
+            {
+                _coordinates = new Position(1, 0);
             }
         }
     }
@@ -54,6 +56,19 @@ namespace Kata.MarsRover.Tests {
                                   new Position(0, 0),
                                   Direction.Create(compass));
             rover.Go('L');
+            rover.CurrentLocation
+                .Should()
+                .Be(expected);
+        }
+
+        [Theory]
+        [InlineData(0, 0, "1 0 N")]
+        [InlineData(1, 0, "2 0 N")]
+        public void Move_when_command_is_M(int x, int y, string expected) {
+            var rover = new Rover(new Grid(5, 5),
+                                  new Position(x, y),
+                                  Direction.Create(Compass.N));
+            rover.Go('M');
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
