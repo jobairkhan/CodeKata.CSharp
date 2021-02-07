@@ -8,6 +8,7 @@ namespace Kata.MarsRover.Tests {
     public class RoverClientShould {
         private Mock<IInputParser> _inputParser;
         private Mock<IOutputBuilder> _outputBuilder;
+        private Mock<IBuildRover> _roverBuilder;
         private RoverClient _sut;
 
         public RoverClientShould() {
@@ -30,12 +31,24 @@ namespace Kata.MarsRover.Tests {
 
         [Theory]
         [InlineData("output")]
+        [InlineData("result")]
         public void Return_output_processor_result(string expected) {
             _outputBuilder.Setup(x => x.Result).Returns(expected);
             var actual = _sut.Execute("input");
             actual.Should().Be(expected);
         }
 
+
+        [Fact]
+        public void Should_build_rover() {
+            _roverBuilder.Verify(x => x.WithGrid(It.IsAny<Grid>()));
+        }
+
+    }
+
+    internal interface IBuildRover
+    {
+        IBuildRover WithGrid(Grid grid);
     }
 
     public class RoverClient {
@@ -48,7 +61,8 @@ namespace Kata.MarsRover.Tests {
         }
 
         public string Execute(string input) {
-            _inputParser.Parse(input);
+            var (grid, lst) = _inputParser.Parse(input);
+
             _outputBuilder.AddResult("");
             return _outputBuilder.Result;
         }
