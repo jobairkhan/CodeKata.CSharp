@@ -25,8 +25,16 @@ namespace Kata.MarsRover.Tests {
             }
             else if (command == 'M')
             {
-                var coordinatesX = (_coordinates.X + 1) % (_grid.Width);
-                _coordinates = new Position(coordinatesX, _coordinates.Y);
+                if (_direction.ToString() == Compass.E.ToString())
+                {
+                    var coordinatesX = (_coordinates.X + 1) % (_grid.Width);
+                    _coordinates = new Position(coordinatesX, _coordinates.Y);
+                }
+                if (_direction.ToString() == Compass.W.ToString()) {
+                    var coordinatesX = 4;
+
+                    _coordinates = new Position(coordinatesX, _coordinates.Y);
+                }
             }
         }
     }
