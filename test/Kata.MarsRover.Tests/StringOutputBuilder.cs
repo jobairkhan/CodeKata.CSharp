@@ -5,11 +5,11 @@ namespace Kata.MarsRover.Tests
 {
     public class StringOutputBuilder : IOutputBuilder
     {
-        public string Result { get; }
+        public string Result { get; private set; }
 
         public void AddResult(string result)
         {
-            
+            Result = result;
         }
     }
 
