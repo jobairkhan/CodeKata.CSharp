@@ -5,15 +5,13 @@ namespace Kata.MarsRover.Tests {
     public class Rover {
         private readonly Grid _grid;
         private Position _coordinates;
-        private Compass _facing;
         private Direction _direction;
 
 
         public Rover(Grid grid, Position coordinates, Compass facing) {
             _grid = grid;
             _coordinates = coordinates;
-            _facing = facing;
-            _direction = new Direction(_facing);
+            _direction = new Direction(facing);
         }
 
         public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_direction}";
@@ -21,38 +19,12 @@ namespace Kata.MarsRover.Tests {
         public void Go(char command) {
             if (command == 'R')
             {
-                GoRight();
                 _direction = _direction.GoRight();
             }
             else if (command == 'L')
             {
-                GoLeft();
                 _direction = _direction.GoLeft();
             }
-        }
-
-        public void GoLeft()
-        {
-            _facing = _facing switch
-            {
-                Compass.N => Compass.W,
-                Compass.W => Compass.S,
-                Compass.S => Compass.E,
-                Compass.E => Compass.N,
-                _ => _facing
-            };
-        }
-
-        public void GoRight()
-        {
-            _facing = _facing switch
-            {
-                Compass.N => Compass.E,
-                Compass.E => Compass.S,
-                Compass.S => Compass.W,
-                Compass.W => Compass.N,
-                _ => _facing
-            };
         }
     }
 
