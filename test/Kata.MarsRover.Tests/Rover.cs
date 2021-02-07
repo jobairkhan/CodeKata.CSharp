@@ -65,7 +65,7 @@ namespace Kata.MarsRover.Tests {
         [InlineData(0, 0, "1 0 E")]
         [InlineData(1, 0, "2 0 E")]
         [InlineData(4, 0, "0 0 E")]
-        public void Increase_position_x_given_facing_east_when_command_is_M(int x, int y, string expected) {
+        public void Move_position_x_given_facing_east_when_command_is_M(int x, int y, string expected) {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
                                   Direction.Create(Compass.E));
@@ -78,10 +78,23 @@ namespace Kata.MarsRover.Tests {
         [Theory]
         [InlineData(0, 0, "4 0 W")]
         [InlineData(1, 0, "0 0 W")]
-        public void Decrease_position_x_given_facing_west_when_command_is_M(int x, int y, string expected) {
+        [InlineData(2, 0, "1 0 W")]
+        public void Move_position_x_given_facing_west_when_command_is_M(int x, int y, string expected) {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
                                   Direction.Create(Compass.W));
+            rover.Go('M');
+            rover.CurrentLocation
+                .Should()
+                .Be(expected);
+        }
+
+        [Theory]
+        [InlineData(0, 0, "0 1 N")]
+        public void Move_position_y_given_facing_north_when_command_is_M(int x, int y, string expected) {
+            var rover = new Rover(new Grid(5, 5),
+                                  new Position(x, y),
+                                  Direction.Create(Compass.N));
             rover.Go('M');
             rover.CurrentLocation
                 .Should()

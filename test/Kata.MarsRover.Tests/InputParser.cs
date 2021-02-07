@@ -60,6 +60,9 @@ namespace Kata.MarsRover.Tests {
             if (direction.ToString() == Compass.W.ToString()) {
                 x = x > 0 ? x - 1 : Width - 1;
             }
+            else if (direction.ToString() == Compass.N.ToString()) {
+                y = 1;
+            }
             return new Position(x, y); ;
         }
     }
@@ -165,12 +168,24 @@ namespace Kata.MarsRover.Tests {
     }
 
     public enum Compass {
+        /// <summary>
+        /// North
+        /// </summary>
         [Display(Name = "North")]
         N,
+        /// <summary>
+        /// East
+        /// </summary>
         [Display(Name = "East")]
         E,
+        /// <summary>
+        /// South
+        /// </summary>
         [Display(Name = "South")]
         S,
+        /// <summary>
+        /// West
+        /// </summary>
         [Display(Name = "West")]
         W
     }
