@@ -25,7 +25,7 @@ namespace Kata.MarsRover.Tests {
             }
             else if (command == 'M')
             {
-                _coordinates = new Position(1, 0);
+                _coordinates = new Position(_coordinates.X + 1, _coordinates.Y);
             }
         }
     }
