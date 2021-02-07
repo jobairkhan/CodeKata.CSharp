@@ -143,9 +143,6 @@ namespace Kata.MarsRover.Tests {
             var (grid, lst) = _inputParser.Parse(input);
             foreach (var roverData in lst)
             {
-                var d = _roverBuilder
-                    .WithGrid(grid);
-                var g = d.WithGrid(grid);
                 var rover = _roverBuilder
                     .WithGrid(grid)
                     .WithPosition(roverData.Position)

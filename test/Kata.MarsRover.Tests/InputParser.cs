@@ -17,7 +17,7 @@ namespace Kata.MarsRover.Tests {
         /// <returns></returns>
         public (Grid, IEnumerable<RoverData>) Parse(string inputString) {
 
-            var lines = inputString.Split(Environment.NewLine);
+            var lines = inputString.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
             var grid = new Grid(0, 0);
             var lst = new List<RoverData>();
 
@@ -25,22 +25,23 @@ namespace Kata.MarsRover.Tests {
             var i = 0;
             while (i < lines.Length) {
                 if (i == 0) {
-                    var size = lines[i].Split(" ");
+                    var size = lines[i].Split(" ", StringSplitOptions.RemoveEmptyEntries);
                     TryParse(size[0], out var height);
                     TryParse(size[1], out var width);
-                    grid = new Grid(height, width);
+                    grid = new Grid(height + 1, width + 1);
                     i++;
                 }
                 else {
-                    var plateau = lines[i++].Split(" ");
+                    var plateau = lines[i].Split(" ");
                     TryParse(plateau[0], out var positionX);
                     TryParse(plateau[1], out var positionY);
                     var compass = (Compass)Enum.Parse(typeof(Compass), plateau[2]);
-
+                    i++;
                     var roverData =
                         new RoverData(new Position(positionX, positionY),
                                      compass,
-                                     lines[i++]);
+                                     lines[i]);
+                    i++;
                     lst.Add(roverData);
                 }
             }
@@ -135,16 +136,16 @@ namespace Kata.MarsRover.Tests {
                                         + Environment.NewLine + "0 0 W" + Environment.NewLine + "RRM"
                                         + Environment.NewLine + "1 1 N" + Environment.NewLine + "LLM";
         public static IEnumerable<object[]> GetInputVerifyHeight() {
-            yield return new object[] { AllOne, 1 };
-            yield return new object[] { AllFive, 5 };
-            yield return new object[] { AllTen, 10 };
-            yield return new object[] { Random, 1 };
+            yield return new object[] { AllOne, 2 };
+            yield return new object[] { AllFive, 6 };
+            yield return new object[] { AllTen, 11 };
+            yield return new object[] { Random, 2 };
         }
         public static IEnumerable<object[]> GetInputVerifyWidth() {
-            yield return new object[] { AllOne, 1 };
-            yield return new object[] { AllFive, 5 };
-            yield return new object[] { AllTen, 10 };
-            yield return new object[] { Random, 5 };
+            yield return new object[] { AllOne, 2 };
+            yield return new object[] { AllFive, 6 };
+            yield return new object[] { AllTen, 11 };
+            yield return new object[] { Random, 6 };
         }
 
         public static IEnumerable<object[]> GetInputVerifyPositionX() {
@@ -164,8 +165,8 @@ namespace Kata.MarsRover.Tests {
         public static IEnumerable<object[]> GetInputVerifyDirection() {
             yield return new object[] { AllOne, Compass.N };
             yield return new object[] { AllFive, Compass.S };
-            //yield return new object[] { AllTen, "E" };
-            //yield return new object[] { Random, "W" };
+            yield return new object[] { AllTen, Compass.E };
+            yield return new object[] { Random, Compass.W };
         }
 
         public static IEnumerable<object[]> GetInputVerifyCommands() {
