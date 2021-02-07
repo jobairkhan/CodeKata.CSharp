@@ -25,11 +25,13 @@ namespace Kata.MarsRover.Tests {
             }
             else if (command == 'M')
             {
-                _coordinates = new Position(_coordinates.X + 1, _coordinates.Y);
+                var coordinatesX = (_coordinates.X + 1) % (_grid.Width);
+                _coordinates = new Position(coordinatesX, _coordinates.Y);
             }
         }
     }
 
+    [Trait("Category", "Unit")]
     public class RoverShould {
         [Theory]
         [InlineData(Compass.N, "0 0 E")]
@@ -60,14 +62,15 @@ namespace Kata.MarsRover.Tests {
                 .Should()
                 .Be(expected);
         }
-
+        
         [Theory]
-        [InlineData(0, 0, "1 0 N")]
-        [InlineData(1, 0, "2 0 N")]
-        public void Move_when_command_is_M(int x, int y, string expected) {
+        [InlineData(0, 0, "1 0 E")]
+        [InlineData(1, 0, "2 0 E")]
+        [InlineData(4, 0, "0 0 E")]
+        public void Increase_position_x_given_facing_east_when_command_is_M(int x, int y, string expected) {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
-                                  Direction.Create(Compass.N));
+                                  Direction.Create(Compass.E));
             rover.Go('M');
             rover.CurrentLocation
                 .Should()
