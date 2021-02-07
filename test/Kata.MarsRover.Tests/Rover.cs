@@ -91,6 +91,7 @@ namespace Kata.MarsRover.Tests {
 
         [Theory]
         [InlineData(0, 0, "0 1 N")]
+        [InlineData(0, 1, "0 2 N")]
         public void Move_position_y_given_facing_north_when_command_is_M(int x, int y, string expected) {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
