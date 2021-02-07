@@ -21,5 +21,14 @@ namespace Kata.MarsRover.Tests
             outputBuilder.AddResult("Test");
             outputBuilder.Result.Should().Be("Test");
         }
+        
+        [Fact]
+        public void Return_all_when_multiple_result_separated_by_new_line()
+        {
+            var outputBuilder = new StringOutputBuilder();
+            outputBuilder.AddResult("Test");
+            outputBuilder.AddResult("Test");
+            outputBuilder.Result.Should().Be("Test" + Environment.NewLine + "Test");
+        }
     }
 }
