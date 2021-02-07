@@ -8,10 +8,10 @@ namespace Kata.MarsRover.Tests {
     [Trait("Category", "Unit")]
 
     public class RoverClientShould {
-        private Mock<IInputParser> _inputParser;
-        private Mock<IOutputBuilder> _outputBuilder;
-        private Mock<IBuildRover> _roverBuilder;
-        private RoverClient _sut;
+        private readonly Mock<IInputParser> _inputParser;
+        private readonly Mock<IOutputBuilder> _outputBuilder;
+        private readonly Mock<IBuildRover> _roverBuilder;
+        private readonly RoverClient _sut;
 
         public RoverClientShould() {
             _inputParser = new Mock<IInputParser>();
@@ -74,9 +74,16 @@ namespace Kata.MarsRover.Tests {
             _roverBuilder.Verify(x => x.Build(), Times.Once);
         }
 
-        private static (Grid, (Position, string)[]) ParsedData()
+        private static (Grid, RoverData[]) ParsedData()
         {
-            return (new Grid(5, 5), new []{ (new Position(0,0), "RRR")});
+            return (new Grid(5, 5), 
+                new []
+                {
+                    new RoverData(
+                        new Position(0,0), 
+                        Compass.N,
+                        "RRR")
+                });
         }
     }
 
@@ -120,10 +127,10 @@ namespace Kata.MarsRover.Tests {
 
         public string Execute(string input) {
             var (grid, lst) = _inputParser.Parse(input);
-            foreach (var (pos, cmd) in lst)
+            foreach (var roverData in lst)
             {
                 _roverBuilder.WithGrid(grid);
-                _roverBuilder.WithPosition(pos);
+                _roverBuilder.WithPosition(roverData.Position);
                 var rover = _roverBuilder.Build();
             }
             _outputBuilder.AddResult("");

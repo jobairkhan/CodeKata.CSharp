@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
@@ -14,12 +15,12 @@ namespace Kata.MarsRover.Tests {
         /// </summary>
         /// <param name="inputString"></param>
         /// <returns></returns>
-        public (Grid, IEnumerable<(Position, string)>) Parse(string inputString) {
-            
+        public (Grid, IEnumerable<RoverData>) Parse(string inputString) {
+
             var lines = inputString.Split(Environment.NewLine);
             var grid = new Grid(0, 0);
-            var lst = new List<(Position, string)>();
-            
+            var lst = new List<RoverData>();
+
 
             var i = 0;
             while (i < lines.Length) {
@@ -31,11 +32,16 @@ namespace Kata.MarsRover.Tests {
                     i++;
                 }
                 else {
-                    var positionLine = lines[i++].Split(" ");
-                    TryParse(positionLine[0], out var positionX);
-                    TryParse(positionLine[1], out var positionY);
+                    var plateau = lines[i++].Split(" ");
+                    TryParse(plateau[0], out var positionX);
+                    TryParse(plateau[1], out var positionY);
+                    var compass = (Compass)Enum.Parse(typeof(Compass), plateau[2]);
 
-                    lst.Add((new Position(positionX, positionY), lines[i++]));
+                    var roverData =
+                        new RoverData(new Position(positionX, positionY),
+                                     compass,
+                                     lines[i++]);
+                    lst.Add(roverData);
                 }
             }
 
@@ -46,6 +52,8 @@ namespace Kata.MarsRover.Tests {
     public record Position(int X, int Y);
 
     public record Grid(int Height, int Width);
+
+    public record RoverData(Position Position, Compass Direction, string Commands);
 
     public class InputParserShould {
         private readonly InputParser _sut;
@@ -69,14 +77,14 @@ namespace Kata.MarsRover.Tests {
         [Theory, MemberData(nameof(GetInputVerifyPositionX))]
         public void Return_grid_with_correct_position_x(string input, int expectedX) {
             var (_, data) = _sut.Parse(input);
-            var (initialPosition, _) = data.First();
+            var (initialPosition, _, _) = data.First();
             initialPosition.X.Should().Be(expectedX);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionY))]
         public void Return_grid_with_correct_position_y(string input, int expectedY) {
             var (_, data) = _sut.Parse(input);
-            var (initialPosition, _) = data.First();
+            var (initialPosition, _, _) = data.First();
             initialPosition.Y.Should().Be(expectedY);
         }
 
@@ -84,16 +92,24 @@ namespace Kata.MarsRover.Tests {
         public void Return_grid_with_correct_commands(string input, string expectedCmdString) {
             var inputParser = new InputParser();
             var (_, data) = inputParser.Parse(input);
-            var (_, cmd) = data.First();
+            var (_, _, cmd) = data.First();
             cmd.Should().Be(expectedCmdString);
         }
 
+        [Theory, MemberData(nameof(GetInputVerifyDirection))]
+        public void Return_grid_with_correct_direction(string input, Compass expected) {
+            var inputParser = new InputParser();
+            var (_, data) = inputParser.Parse(input);
+            var (_, direction, _) = data.First();
+            direction.Should().Be(expected);
+        }
+
         private static string AllOne => "1 1" + Environment.NewLine + "1 1 N" + Environment.NewLine + "LRM";
-        private static string AllFive => "5 5" + Environment.NewLine + "5 5 N" + Environment.NewLine + "RRR";
-        private static string AllTen => "10 10" + Environment.NewLine + "10 10 N" + Environment.NewLine + "LLL";
+        private static string AllFive => "5 5" + Environment.NewLine + "5 5 S" + Environment.NewLine + "RRR";
+        private static string AllTen => "10 10" + Environment.NewLine + "10 10 E" + Environment.NewLine + "LLL";
 
         private static string Random => "1 5"
-                                        + Environment.NewLine + "0 0 N" + Environment.NewLine + "RRM"
+                                        + Environment.NewLine + "0 0 W" + Environment.NewLine + "RRM"
                                         + Environment.NewLine + "1 1 N" + Environment.NewLine + "LLM";
         public static IEnumerable<object[]> GetInputVerifyHeight() {
             yield return new object[] { AllOne, 1 };
@@ -122,11 +138,29 @@ namespace Kata.MarsRover.Tests {
             yield return new object[] { Random, 0 };
         }
 
+        public static IEnumerable<object[]> GetInputVerifyDirection() {
+            yield return new object[] { AllOne, Compass.N };
+            yield return new object[] { AllFive, Compass.S };
+            //yield return new object[] { AllTen, "E" };
+            //yield return new object[] { Random, "W" };
+        }
+
         public static IEnumerable<object[]> GetInputVerifyCommands() {
             yield return new object[] { AllOne, "LRM" };
             yield return new object[] { AllFive, "RRR" };
             yield return new object[] { AllTen, "LLL" };
             yield return new object[] { Random, "RRM" };
         }
+    }
+
+    public enum Compass {
+        [Display(Name = "North")]
+        N,
+        [Display(Name = "East")]
+        E,
+        [Display(Name = "South")]
+        S,
+        [Display(Name = "West")]
+        W
     }
 }
