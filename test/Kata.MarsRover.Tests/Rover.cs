@@ -22,18 +22,19 @@ namespace Kata.MarsRover.Tests {
         /// </summary>
         /// <param name="commands"></param>
         public void Go(string commands) {
-            var command = commands[0];
-
-            switch (command) {
-                case 'R':
-                    _direction = _direction.GoRight();
-                    break;
-                case 'L':
-                    _direction = _direction.GoLeft();
-                    break;
-                case 'M':
-                    _coordinates = _grid.NextPosition(_coordinates, _direction);
-                    break;
+            foreach (var command in commands) {
+                switch (command)
+                {
+                    case 'R':
+                        _direction = _direction.GoRight();
+                        break;
+                    case 'L':
+                        _direction = _direction.GoLeft();
+                        break;
+                    case 'M':
+                        _coordinates = _grid.NextPosition(_coordinates, _direction);
+                        break;
+                }
             }
         }
     }
