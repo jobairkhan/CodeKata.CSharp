@@ -1,4 +1,6 @@
 using System;
+using FluentAssertions;
+using Xunit;
 
 namespace Kata.MarsRover.Tests
 {
@@ -19,7 +21,23 @@ namespace Kata.MarsRover.Tests
 
         public Rover Build()
         {
-            throw new NotImplementedException();
+            return null;
+        }
+    }
+
+    public class RoverBuilderShould
+    {
+        private RoverBuilder _sut;
+
+        public RoverBuilderShould()
+        {
+            _sut = new RoverBuilder();
+        }
+
+        [Fact]
+        public void Not_return_nothing()
+        {
+            _sut.Build().Should().NotBeNull();
         }
     }
 }
