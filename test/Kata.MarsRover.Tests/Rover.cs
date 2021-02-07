@@ -6,28 +6,32 @@ namespace Kata.MarsRover.Tests {
         private readonly Grid _grid;
         private Position _coordinates;
         private Compass _facing;
+        private Direction _direction;
 
 
         public Rover(Grid grid, Position coordinates, Compass facing) {
             _grid = grid;
             _coordinates = coordinates;
             _facing = facing;
+            _direction = new Direction(_facing);
         }
 
-        public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_facing}";
+        public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_direction}";
 
         public void Go(char command) {
             if (command == 'R')
             {
                 GoRight();
+                _direction = _direction.GoRight();
             }
             else if (command == 'L')
             {
                 GoLeft();
+                _direction = _direction.GoLeft();
             }
         }
 
-        private void GoLeft()
+        public void GoLeft()
         {
             _facing = _facing switch
             {
@@ -39,7 +43,7 @@ namespace Kata.MarsRover.Tests {
             };
         }
 
-        private void GoRight()
+        public void GoRight()
         {
             _facing = _facing switch
             {
@@ -57,6 +61,33 @@ namespace Kata.MarsRover.Tests {
 
         public Direction(Compass current) {
             _current = current;
+        }
+
+        public Direction GoLeft() {
+            var newCompass = _current switch {
+                Compass.N => Compass.W,
+                Compass.W => Compass.S,
+                Compass.S => Compass.E,
+                Compass.E => Compass.N,
+                _ => _current
+            };
+            return new Direction(newCompass);
+        }
+
+        public Direction GoRight() {
+            var newCompass = _current switch {
+                Compass.N => Compass.E,
+                Compass.E => Compass.S,
+                Compass.S => Compass.W,
+                Compass.W => Compass.N,
+                _ => _current
+            };
+            return new Direction(newCompass);
+        }
+
+        public override string ToString()
+        {
+            return _current.ToString(); 
         }
     }
 
