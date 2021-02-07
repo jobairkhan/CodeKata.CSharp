@@ -97,6 +97,9 @@ namespace Kata.MarsRover.Tests {
         
         public static IEnumerable<object[]> GetInputVerifyCommands() {
             yield return new object[] { AllOne, "LRM" };
+            yield return new object[] { AllFive, "RRR" };
+            yield return new object[] { AllTen, "LLL" };
+            yield return new object[] { Random, "MMM" };
         }
     }
 }
