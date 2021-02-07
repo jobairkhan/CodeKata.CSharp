@@ -22,6 +22,7 @@ namespace Kata.MarsRover.Tests
         public void Go(string command)
         {
             if(_facing == Compass.N) _facing = Compass.E;
+            else if(_facing == Compass.S) _facing = Compass.W;
             else
             {
                 _facing = Compass.S;
