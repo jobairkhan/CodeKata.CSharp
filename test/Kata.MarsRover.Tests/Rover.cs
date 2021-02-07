@@ -102,5 +102,17 @@ namespace Kata.MarsRover.Tests {
                 .Should()
                 .Be(expected);
         }
+
+        [Theory]
+        [InlineData(4, 4, "4 3 S")]
+        public void Move_position_y_given_facing_south_when_command_is_M(int x, int y, string expected) {
+            var rover = new Rover(new Grid(5, 5),
+                                  new Position(x, y),
+                                  Direction.Create(Compass.S));
+            rover.Go('M');
+            rover.CurrentLocation
+                .Should()
+                .Be(expected);
+        }
     }
 }

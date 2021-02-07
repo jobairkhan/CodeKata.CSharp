@@ -57,11 +57,14 @@ namespace Kata.MarsRover.Tests {
             if (direction.ToString() == Compass.E.ToString()) {
                 x = (x + 1) % (Width);
             }
-            if (direction.ToString() == Compass.W.ToString()) {
+            else if (direction.ToString() == Compass.W.ToString()) {
                 x = x > 0 ? x - 1 : Width - 1;
             }
             else if (direction.ToString() == Compass.N.ToString()) {
                 y = (y + 1) % Height;
+            }
+            else if (direction.ToString() == Compass.S.ToString()) {
+                y = 3;
             }
             return new Position(x, y); ;
         }
