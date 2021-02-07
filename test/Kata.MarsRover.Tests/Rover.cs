@@ -76,5 +76,17 @@ namespace Kata.MarsRover.Tests {
                 .Should()
                 .Be(expected);
         }
+
+        [Theory]
+        [InlineData(0, 0, "4 0 W")]
+        public void Decrease_position_x_given_facing_west_when_command_is_M(int x, int y, string expected) {
+            var rover = new Rover(new Grid(5, 5),
+                                  new Position(x, y),
+                                  Direction.Create(Compass.W));
+            rover.Go('M');
+            rover.CurrentLocation
+                .Should()
+                .Be(expected);
+        }
     }
 }
