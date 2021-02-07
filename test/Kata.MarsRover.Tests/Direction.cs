@@ -28,7 +28,9 @@ namespace Kata.MarsRover.Tests
             };
             return new Direction(newCompass);
         }
-        
+
+        public static implicit operator Compass(Direction d) => d._current;
+
         public override string ToString()
         {
             return _current.ToString(); 

@@ -51,7 +51,18 @@ namespace Kata.MarsRover.Tests {
 
     public record Position(int X, int Y);
 
-    public record Grid(int Height, int Width);
+    public record Grid(int Height, int Width) {
+        public Position NextPosition(Position coordinates, Compass direction) {
+            var (x, y) = coordinates;
+            if (direction.ToString() == Compass.E.ToString()) {
+                x = (x + 1) % (Width);
+            }
+            if (direction.ToString() == Compass.W.ToString()) {
+                x = x > 0 ? x - 1 : Width - 1;
+            }
+            return new Position(x, y); ;
+        }
+    }
 
     public record RoverData(Position Position, Compass Direction, string Commands);
 

@@ -23,18 +23,8 @@ namespace Kata.MarsRover.Tests {
             else if (command == 'L') {
                 _direction = _direction.GoLeft();
             }
-            else if (command == 'M')
-            {
-                if (_direction.ToString() == Compass.E.ToString())
-                {
-                    var coordinatesX = (_coordinates.X + 1) % (_grid.Width);
-                    _coordinates = new Position(coordinatesX, _coordinates.Y);
-                }
-                if (_direction.ToString() == Compass.W.ToString()) {
-                    var coordinatesX = _coordinates.X > 0 ? _coordinates.X - 1 : _grid.Width - 1;
-
-                    _coordinates = new Position(coordinatesX, _coordinates.Y);
-                }
+            else if (command == 'M') {
+                _coordinates = _grid.NextPosition(_coordinates, _direction);
             }
         }
     }
