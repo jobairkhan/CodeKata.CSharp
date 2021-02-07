@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Kata.MarsRover.Tests.Domain;
 using Xunit;
 
-namespace Kata.MarsRover.Tests.Domain.Unit.Tests
+namespace Kata.MarsRover.Tests.UnitTests
 {
     public class InputParserShould {
-        private readonly InputParser.InputParser _sut;
+        private readonly Domain.InputParser.InputParser _sut;
 
         public InputParserShould() {
-            _sut = new InputParser.InputParser();
+            _sut = new Domain.InputParser.InputParser();
         }
 
         [Theory, MemberData(nameof(GetInputVerifyHeight))]
@@ -41,7 +42,7 @@ namespace Kata.MarsRover.Tests.Domain.Unit.Tests
 
         [Theory, MemberData(nameof(GetInputVerifyCommands))]
         public void Return_grid_with_correct_commands(string input, string expectedCmdString) {
-            var inputParser = new InputParser.InputParser();
+            var inputParser = new Domain.InputParser.InputParser();
             var (_, data) = inputParser.Parse(input);
             var (_, _, cmd) = data.First();
             cmd.Should().Be(expectedCmdString);
@@ -49,7 +50,7 @@ namespace Kata.MarsRover.Tests.Domain.Unit.Tests
 
         [Theory, MemberData(nameof(GetInputVerifyDirection))]
         public void Return_grid_with_correct_direction(string input, Compass expected) {
-            var inputParser = new InputParser.InputParser();
+            var inputParser = new Domain.InputParser.InputParser();
             var (_, data) = inputParser.Parse(input);
             var (_, direction, _) = data.First();
             direction.Should().Be(expected);

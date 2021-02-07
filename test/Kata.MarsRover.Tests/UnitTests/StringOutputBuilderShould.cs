@@ -3,7 +3,7 @@ using FluentAssertions;
 using Kata.MarsRover.Tests.Domain.OutputBuilder;
 using Xunit;
 
-namespace Kata.MarsRover.Tests.Domain.Unit.Tests
+namespace Kata.MarsRover.Tests.UnitTests
 {
     public class StringOutputBuilderShould {
         [Fact]

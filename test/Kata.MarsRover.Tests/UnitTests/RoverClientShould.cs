@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Kata.MarsRover.Tests.Domain;
 using Kata.MarsRover.Tests.Domain.InputParser;
 using Kata.MarsRover.Tests.Domain.OutputBuilder;
 using Kata.MarsRover.Tests.Domain.RoverBuilder;
@@ -6,7 +7,7 @@ using Kata.MarsRover.Tests.Domain.ValueObject;
 using Moq;
 using Xunit;
 
-namespace Kata.MarsRover.Tests.Domain.Unit.Tests
+namespace Kata.MarsRover.Tests.UnitTests
 {
     [Trait("Category", "Unit")]
 
@@ -113,7 +114,7 @@ namespace Kata.MarsRover.Tests.Domain.Unit.Tests
             _inputParser.Setup(x => x.Parse(It.IsAny<string>()))
                 .Returns(ParsedData("RMMM"));
 
-            var roverClient = new RoverClient(_inputParser.Object, new RoverBuilder.RoverBuilder(), new StringOutputBuilder());
+            var roverClient = new RoverClient(_inputParser.Object, new Domain.RoverBuilder.RoverBuilder(), new StringOutputBuilder());
 
             var output = roverClient.Execute("ignoreMe");
 

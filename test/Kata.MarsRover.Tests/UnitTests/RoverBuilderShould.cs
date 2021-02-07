@@ -1,17 +1,18 @@
 using FluentAssertions;
+using Kata.MarsRover.Tests.Domain;
 using Kata.MarsRover.Tests.Domain.ValueObject;
 using Xunit;
 
-namespace Kata.MarsRover.Tests.Domain.Unit.Tests
+namespace Kata.MarsRover.Tests.UnitTests
 {
     public class RoverBuilderShould
     {
-        private readonly RoverBuilder.RoverBuilder _sut;
+        private readonly Domain.RoverBuilder.RoverBuilder _sut;
         private readonly Rover _rover;
 
         public RoverBuilderShould()
         {
-            _sut = new RoverBuilder.RoverBuilder();
+            _sut = new Domain.RoverBuilder.RoverBuilder();
             _rover = _sut
                 .WithGrid(new Grid(10, 10))
                 .WithFacing(Compass.N)

@@ -1,8 +1,9 @@
 using FluentAssertions;
+using Kata.MarsRover.Tests.Domain;
 using Kata.MarsRover.Tests.Domain.ValueObject;
 using Xunit;
 
-namespace Kata.MarsRover.Tests.Domain.Unit.Tests
+namespace Kata.MarsRover.Tests.UnitTests
 {
     [Trait("Category", "Unit")]
     public class RoverShould {
