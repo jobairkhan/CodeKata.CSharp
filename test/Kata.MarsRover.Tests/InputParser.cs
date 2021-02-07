@@ -16,7 +16,8 @@ namespace Kata.MarsRover.Tests {
             var position = lines[1].Split(" ");
             TryParse(position[0], out var positionX);
             TryParse(position[1], out var positionY);
-            return (new Grid(height, width), new Position(positionX, positionY), null);
+            
+            return (new Grid(height, width), new Position(positionX, positionY), lines[2]);
         }
     }
 
@@ -63,10 +64,10 @@ namespace Kata.MarsRover.Tests {
             cmd.Should().Be(expectedCmdString);
         }
 
-        private static string AllOne => "1 1" + Environment.NewLine + "1 1 N";
-        private static string AllFive => "5 5" + Environment.NewLine + "5 5 N";
-        private static string AllTen => "10 10" + Environment.NewLine + "10 10 N";
-        private static string Random => "1 5" + Environment.NewLine + "0 0 N";
+        private static string AllOne => "1 1" + Environment.NewLine + "1 1 N" + Environment.NewLine + "LRM";
+        private static string AllFive => "5 5" + Environment.NewLine + "5 5 N" + Environment.NewLine + "RRR";
+        private static string AllTen => "10 10" + Environment.NewLine + "10 10 N" + Environment.NewLine + "LLL";
+        private static string Random => "1 5" + Environment.NewLine + "0 0 N" + Environment.NewLine + "MMM";
         public static IEnumerable<object[]> GetInputVerifyHeight() {
             yield return new object[] { AllOne, 1 };
             yield return new object[] { AllFive, 5 };
