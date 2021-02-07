@@ -23,15 +23,18 @@ The output for each rover should be its final coordinates and heading.
 EXAMPLE
 
 Test Input:
-5 5
-1 2 N
-LMLMLMLMM
-3 3 E
+```
+5 5 
+1 2 N 
+LMLMLMLMM 
+3 3 E 
 MMRMMRMRRM
+```
 
 Expected Output:
+```
 1 3 N
 5 1 E
-
+```
 
 For more guidance, please see the following video: https://www.youtube.com/watch?v=24vzFAvOzo0&feature=youtu.be
