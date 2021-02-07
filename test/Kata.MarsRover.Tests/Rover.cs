@@ -21,49 +21,31 @@ namespace Kata.MarsRover.Tests
 
         public void Go(string command)
         {
-            if(_facing == Compass.N) _facing = Compass.E;
-            else if(_facing == Compass.S) _facing = Compass.W;
-            else
+            _facing = _facing switch
             {
-                _facing = Compass.S;
-            }
+                Compass.N => Compass.E,
+                Compass.S => Compass.W,
+                Compass.E => Compass.S,
+                _ => _facing
+            };
         }
     }
 
     public class RoverShould
     {
-        [Fact]
-        public void Go_right_when_command_R()
-        {
-            var rover = new Rover(new Grid(5, 5), new Position(0, 0), Compass.N);
-            rover.Go("R");
-            rover.CurrentLocation
-                .Should()
-                .Be("0 0 E");
-        }
-
-        [Fact]
-        public void Go_right_when_command_R_and_facing_E()
+        [Theory]
+        [InlineData(Compass.N, "0 0 E")]
+        [InlineData(Compass.E, "0 0 S")]
+        [InlineData(Compass.S, "0 0 W")]
+        public void Go_right_when_command_R(Compass init, string expected)
         {
             var rover = new Rover(new Grid(5, 5), 
-                                 new Position(0, 0), 
-                                 Compass.E);
+                                  new Position(0, 0), 
+                                  init);
             rover.Go("R");
             rover.CurrentLocation
                 .Should()
-                .Be("0 0 S");
-        }
-
-        [Fact]
-        public void Go_right_when_command_R_and_facing_S()
-        {
-            var rover = new Rover(new Grid(5, 5), 
-                                 new Position(0, 0), 
-                                 Compass.S);
-            rover.Go("R");
-            rover.CurrentLocation
-                .Should()
-                .Be("0 0 W");
+                .Be(expected);
         }
     }
 }
