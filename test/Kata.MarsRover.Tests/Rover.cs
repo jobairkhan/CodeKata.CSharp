@@ -19,15 +19,25 @@ namespace Kata.MarsRover.Tests
 
         public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_facing}";
 
-        public void Go(string command)
+        public void Go(char command)
         {
-            _facing = _facing switch
+            if(command == 'R')
             {
-                Compass.N => Compass.E,
-                Compass.S => Compass.W,
-                Compass.E => Compass.S,
-                _ => _facing
-            };
+                _facing = _facing switch
+                {
+                    Compass.N => Compass.E,
+                    Compass.S => Compass.W,
+                    Compass.E => Compass.S,
+                    _ => _facing
+                };
+            }
+            else if(command == 'L')
+            {
+                _facing = _facing switch {
+                    Compass.N => Compass.W,
+                    _ => _facing
+                };
+            }
         }
     }
 
@@ -42,20 +52,20 @@ namespace Kata.MarsRover.Tests
             var rover = new Rover(new Grid(5, 5), 
                                   new Position(0, 0), 
                                   init);
-            rover.Go("R");
+            rover.Go('R');
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
         }
         
         [Theory]
-        [InlineData(Compass.N, "0 0 L")]
+        [InlineData(Compass.N, "0 0 W")]
         public void Go_left_when_command_is_L(Compass init, string expected)
         {
             var rover = new Rover(new Grid(5, 5), 
                                   new Position(0, 0), 
                                   init);
-            rover.Go("L");
+            rover.Go('L');
             rover.CurrentLocation
                 .Should()
                 .Be(expected);
