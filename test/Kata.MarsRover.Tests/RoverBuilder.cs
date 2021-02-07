@@ -37,7 +37,7 @@ namespace Kata.MarsRover.Tests
 
         public Rover Build()
         {
-            return new Rover(_grid, _position, _compass);
+            return new Rover(_grid, _position, Direction.Create(_compass));
         }
     }
 
