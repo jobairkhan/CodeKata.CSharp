@@ -11,11 +11,11 @@ namespace Kata.MarsRover.Tests {
          * TODO [ ]: RoverClient should ask rover to follow all command
          * TODO [X]: The first line of input is the upper-right coordinates of the plateau - Grid Size
          * TODO [X]: Each rover has two lines of input, The first line gives the rover’s position, and the second line is a series of instructions telling the rover how to explore the plateau. 
-         * TODO [ ]: ‘R’ makes the rover spin 90 degrees right
-         * TODO [ ]: ‘L’ makes the rover spin 90 degrees left
-         * TODO [ ]: ‘M’ means move forward one grid point
-         * TODO [ ]: Output for each rover should be its final co-ordinates and heading
-         * TODO [ ]: RoverBuilder should create rover with all values
+         * TODO [X]: ‘R’ makes the rover spin 90 degrees right
+         * TODO [X]: ‘L’ makes the rover spin 90 degrees left
+         * TODO [X]: ‘M’ means move forward one grid point
+         * TODO [X]: Output for each rover should be its final co-ordinates and heading
+         * TODO [X]: RoverBuilder should create rover with all values
          */
         [Fact(Skip = "Wait till units are completed")]
         public void Test1()

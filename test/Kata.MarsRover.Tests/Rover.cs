@@ -16,15 +16,19 @@ namespace Kata.MarsRover.Tests {
 
         public string CurrentLocation => $"{_coordinates.X} {_coordinates.Y} {_direction}";
 
-        public void Go(char command) {
-            if (command == 'R') {
-                _direction = _direction.GoRight();
-            }
-            else if (command == 'L') {
-                _direction = _direction.GoLeft();
-            }
-            else if (command == 'M') {
-                _coordinates = _grid.NextPosition(_coordinates, _direction);
+        public void Go(char command)
+        {
+            switch (command)
+            {
+                case 'R':
+                    _direction = _direction.GoRight();
+                    break;
+                case 'L':
+                    _direction = _direction.GoLeft();
+                    break;
+                case 'M':
+                    _coordinates = _grid.NextPosition(_coordinates, _direction);
+                    break;
             }
         }
     }
