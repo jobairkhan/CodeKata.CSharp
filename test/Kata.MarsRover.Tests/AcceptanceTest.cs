@@ -27,7 +27,7 @@ LMLMLMLMM
 MMRMMRMRRM
 
 ";
-            var sut = new RoverClient(new InputParser(), new RoverBuilder() , new OutputBuilder());
+            var sut = new RoverClient(new InputParser(), new RoverBuilder() , new StringOutputBuilder());
 
             var output = sut.Execute(input);
 
