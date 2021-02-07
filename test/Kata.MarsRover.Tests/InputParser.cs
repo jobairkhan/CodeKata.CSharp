@@ -8,16 +8,31 @@ namespace Kata.MarsRover.Tests {
     public class InputParser : IInputParser {
         public (Grid, Position, string) Parse(string inputString) {
             var lines = inputString.Split(Environment.NewLine);
-            var size = lines[0].Split(" ");
-            TryParse(size[0], out var height);
-            TryParse(size[1], out var width);
-            
-            
-            var position = lines[1].Split(" ");
-            TryParse(position[0], out var positionX);
-            TryParse(position[1], out var positionY);
-            
-            return (new Grid(height, width), new Position(positionX, positionY), lines[2]);
+            Grid grid = new Grid(0, 0);
+            Position position1 = new Position(0,0);
+            string commands = string.Empty;
+
+            var i = 0;
+            while (i < lines.Length)
+            {
+                if (i == 0) {
+                    var size = lines[i].Split(" ");
+                    TryParse(size[0], out var height);
+                    TryParse(size[1], out var width);
+                    grid = new Grid(height, width);
+                    i++;
+                }
+                else {
+                    var position = lines[i++].Split(" ");
+                    TryParse(position[0], out var positionX);
+                    TryParse(position[1], out var positionY);
+
+                    position1 = new Position(positionX, positionY);
+                    commands = lines[i++];
+                }
+            }
+
+            return (grid, position1, commands);
         }
     }
 
@@ -28,8 +43,7 @@ namespace Kata.MarsRover.Tests {
     public class InputParserShould {
         private readonly InputParser _sut;
 
-        public InputParserShould()
-        {
+        public InputParserShould() {
             _sut = new InputParser();
         }
 
@@ -67,9 +81,10 @@ namespace Kata.MarsRover.Tests {
         private static string AllOne => "1 1" + Environment.NewLine + "1 1 N" + Environment.NewLine + "LRM";
         private static string AllFive => "5 5" + Environment.NewLine + "5 5 N" + Environment.NewLine + "RRR";
         private static string AllTen => "10 10" + Environment.NewLine + "10 10 N" + Environment.NewLine + "LLL";
-        private static string Random => "1 5" 
-                                        + Environment.NewLine + "0 0 N" + Environment.NewLine + "RRM" 
-                                        + Environment.NewLine + "1 1 N" + Environment.NewLine + "LLM";
+
+        private static string Random => "1 5"
+                                        + Environment.NewLine + "0 0 N" + Environment.NewLine + "RRM";
+        //+ Environment.NewLine + "1 1 N" + Environment.NewLine + "LLM";
         public static IEnumerable<object[]> GetInputVerifyHeight() {
             yield return new object[] { AllOne, 1 };
             yield return new object[] { AllFive, 5 };
@@ -96,12 +111,12 @@ namespace Kata.MarsRover.Tests {
             yield return new object[] { AllTen, 10 };
             yield return new object[] { Random, 0 };
         }
-        
+
         public static IEnumerable<object[]> GetInputVerifyCommands() {
             yield return new object[] { AllOne, "LRM" };
             yield return new object[] { AllFive, "RRR" };
             yield return new object[] { AllTen, "LLL" };
-            yield return new object[] { Random, "MMM" };
+            yield return new object[] { Random, "RRM" };
         }
     }
 }
