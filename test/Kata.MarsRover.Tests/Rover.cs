@@ -31,7 +31,7 @@ namespace Kata.MarsRover.Tests {
                     _coordinates = new Position(coordinatesX, _coordinates.Y);
                 }
                 if (_direction.ToString() == Compass.W.ToString()) {
-                    var coordinatesX = 4;
+                    var coordinatesX = _coordinates.X > 0 ? _coordinates.X - 1 : _grid.Width - 1;
 
                     _coordinates = new Position(coordinatesX, _coordinates.Y);
                 }
@@ -87,6 +87,7 @@ namespace Kata.MarsRover.Tests {
 
         [Theory]
         [InlineData(0, 0, "4 0 W")]
+        [InlineData(1, 0, "0 0 W")]
         public void Decrease_position_x_given_facing_west_when_command_is_M(int x, int y, string expected) {
             var rover = new Rover(new Grid(5, 5),
                                   new Position(x, y),
