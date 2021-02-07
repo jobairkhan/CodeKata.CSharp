@@ -15,11 +15,11 @@ namespace Kata.MarsRover.Tests {
             
             var position = lines[1].Split(" ");
             TryParse(position[0], out var positionX);
-            return (new Grid(height, width), new Position(positionX));
+            return (new Grid(height, width), new Position(positionX, 0));
         }
     }
 
-    public record Position(int x);
+    public record Position(int x, int y);
 
     public record Grid(int height, int width);
 
@@ -40,10 +40,17 @@ namespace Kata.MarsRover.Tests {
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionX))]
-        public void Return_grid_with_correct_position(string input, int expectedX) {
+        public void Return_grid_with_correct_position_x(string input, int expectedX) {
             var inputParser = new InputParser();
             var (_, initialPosition) = inputParser.Parse(input);
             initialPosition.x.Should().Be(expectedX);
+        }
+
+        [Theory, MemberData(nameof(GetInputVerifyPositionY))]
+        public void Return_grid_with_correct_position_y(string input, int expectedY) {
+            var inputParser = new InputParser();
+            var (_, initialPosition) = inputParser.Parse(input);
+            initialPosition.x.Should().Be(expectedY);
         }
 
         public static IEnumerable<object[]> GetInputVerifyHeight() {
@@ -54,9 +61,15 @@ namespace Kata.MarsRover.Tests {
             yield return new object[] { "1 1" + Environment.NewLine + "1 0 N", 1 };
             yield return new object[] { "1 10" + Environment.NewLine + "1 0 N", 10 };
         }
+
         public static IEnumerable<object[]> GetInputVerifyPositionX() {
             yield return new object[] { "1 1" + Environment.NewLine + "1 0 N", 1 };
             yield return new object[] { "1 1" + Environment.NewLine + "10 0 N", 10 };
+        }
+
+        public static IEnumerable<object[]> GetInputVerifyPositionY() {
+            yield return new object[] { "1 1" + Environment.NewLine + "0 1 N", 1 };
+            yield return new object[] { "1 1" + Environment.NewLine + "0 10 N", 10 };
         }
     }
 }
