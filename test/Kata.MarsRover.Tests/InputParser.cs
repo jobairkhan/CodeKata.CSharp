@@ -1,20 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 using static System.Int32;
 
 namespace Kata.MarsRover.Tests {
     public class InputParser : IInputParser {
-        public (Grid, Position, string) Parse(string inputString) {
+        /// <summary>
+        /// Parse
+        /// TODO: Refactor
+        /// TODO: Add validations
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        public (Grid, IEnumerable<(Position, string)>) Parse(string inputString) {
+            
             var lines = inputString.Split(Environment.NewLine);
-            Grid grid = new Grid(0, 0);
-            Position position1 = new Position(0,0);
-            string commands = string.Empty;
+            var grid = new Grid(0, 0);
+            var lst = new List<(Position, string)>();
+            
 
             var i = 0;
-            while (i < lines.Length)
-            {
+            while (i < lines.Length) {
                 if (i == 0) {
                     var size = lines[i].Split(" ");
                     TryParse(size[0], out var height);
@@ -23,16 +31,15 @@ namespace Kata.MarsRover.Tests {
                     i++;
                 }
                 else {
-                    var position = lines[i++].Split(" ");
-                    TryParse(position[0], out var positionX);
-                    TryParse(position[1], out var positionY);
+                    var positionLine = lines[i++].Split(" ");
+                    TryParse(positionLine[0], out var positionX);
+                    TryParse(positionLine[1], out var positionY);
 
-                    position1 = new Position(positionX, positionY);
-                    commands = lines[i++];
+                    lst.Add((new Position(positionX, positionY), lines[i++]));
                 }
             }
 
-            return (grid, position1, commands);
+            return (grid, lst);
         }
     }
 
@@ -49,32 +56,35 @@ namespace Kata.MarsRover.Tests {
 
         [Theory, MemberData(nameof(GetInputVerifyHeight))]
         public void Return_grid_with_correct_height(string input, int expectedHeight) {
-            var (grid, _, _) = _sut.Parse(input);
+            var (grid, _) = _sut.Parse(input);
             grid.Height.Should().Be(expectedHeight);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyWidth))]
         public void Return_grid_with_correct_width(string input, int expectedWidth) {
-            var (grid, _, _) = _sut.Parse(input);
+            var (grid, _) = _sut.Parse(input);
             grid.Width.Should().Be(expectedWidth);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionX))]
         public void Return_grid_with_correct_position_x(string input, int expectedX) {
-            var (_, initialPosition, _) = _sut.Parse(input);
+            var (_, data) = _sut.Parse(input);
+            var (initialPosition, _) = data.First();
             initialPosition.X.Should().Be(expectedX);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyPositionY))]
         public void Return_grid_with_correct_position_y(string input, int expectedY) {
-            var (_, initialPosition, _) = _sut.Parse(input);
+            var (_, data) = _sut.Parse(input);
+            var (initialPosition, _) = data.First();
             initialPosition.Y.Should().Be(expectedY);
         }
 
         [Theory, MemberData(nameof(GetInputVerifyCommands))]
         public void Return_grid_with_correct_commands(string input, string expectedCmdString) {
             var inputParser = new InputParser();
-            var (_, _, cmd) = inputParser.Parse(input);
+            var (_, data) = inputParser.Parse(input);
+            var (_, cmd) = data.First();
             cmd.Should().Be(expectedCmdString);
         }
 
@@ -83,8 +93,8 @@ namespace Kata.MarsRover.Tests {
         private static string AllTen => "10 10" + Environment.NewLine + "10 10 N" + Environment.NewLine + "LLL";
 
         private static string Random => "1 5"
-                                        + Environment.NewLine + "0 0 N" + Environment.NewLine + "RRM";
-        //+ Environment.NewLine + "1 1 N" + Environment.NewLine + "LLM";
+                                        + Environment.NewLine + "0 0 N" + Environment.NewLine + "RRM"
+                                        + Environment.NewLine + "1 1 N" + Environment.NewLine + "LLM";
         public static IEnumerable<object[]> GetInputVerifyHeight() {
             yield return new object[] { AllOne, 1 };
             yield return new object[] { AllFive, 5 };
