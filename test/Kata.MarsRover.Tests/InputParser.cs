@@ -15,6 +15,7 @@ namespace Kata.MarsRover.Tests {
             
             var position = lines[1].Split(" ");
             TryParse(position[0], out var positionX);
+            //TryParse(position[1], out var positionY);
             return (new Grid(height, width), new Position(positionX, 0));
         }
     }
@@ -50,7 +51,7 @@ namespace Kata.MarsRover.Tests {
         public void Return_grid_with_correct_position_y(string input, int expectedY) {
             var inputParser = new InputParser();
             var (_, initialPosition) = inputParser.Parse(input);
-            initialPosition.x.Should().Be(expectedY);
+            initialPosition.y.Should().Be(expectedY);
         }
 
         public static IEnumerable<object[]> GetInputVerifyHeight() {
