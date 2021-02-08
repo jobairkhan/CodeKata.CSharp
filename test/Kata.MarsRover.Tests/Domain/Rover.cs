@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Kata.MarsRover.Tests.Domain.ValueObject;
 
 namespace Kata.MarsRover.Tests.Domain {
@@ -39,6 +40,8 @@ namespace Kata.MarsRover.Tests.Domain {
                     case 'M':
                         _coordinates = _grid.NextPosition(_coordinates, _direction);
                         break;
+                    default:
+                        throw new IndexOutOfRangeException(command.ToString());
                 }
             }
         }

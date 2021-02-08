@@ -108,7 +108,7 @@ namespace Kata.MarsRover.Tests.UnitTests
         }
 
         [Fact]
-        public void Throw_error_when_invalid_input()
+        public void Throw_error_when_commands_is_empty()
         {
             var rover = new Rover(new Grid(5, 5),
                 new Position(3, 3),
@@ -118,6 +118,19 @@ namespace Kata.MarsRover.Tests.UnitTests
 
             var exception = act.Should().Throw<ArgumentException>("Commands cannot be null");
             exception.WithMessage("*commands*");
+        }
+
+        [Fact]
+        public void Throw_error_when_invalid_input()
+        {
+            var rover = new Rover(new Grid(5, 5),
+                new Position(3, 3),
+                Direction.Create(Compass.N));
+
+            Action act = () => rover.Go("B");
+
+            var exception = act.Should().Throw<IndexOutOfRangeException>("Commands can only contains 'L' 'R' and 'M'");
+            exception.WithMessage("B");
         }
     }
 }
