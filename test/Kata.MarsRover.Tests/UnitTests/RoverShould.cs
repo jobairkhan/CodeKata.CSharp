@@ -116,7 +116,8 @@ namespace Kata.MarsRover.Tests.UnitTests
 
             Action act = () => rover.Go(null);
 
-            act.Should().Throw<ArgumentNullException>("Commands cannot be null");
+            var exception = act.Should().Throw<ArgumentException>("Commands cannot be null");
+            exception.WithMessage("*commands*");
         }
     }
 }

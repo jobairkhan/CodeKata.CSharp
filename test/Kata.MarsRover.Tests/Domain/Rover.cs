@@ -1,3 +1,4 @@
+using System;
 using Kata.MarsRover.Tests.Domain.ValueObject;
 
 namespace Kata.MarsRover.Tests.Domain {
@@ -21,6 +22,11 @@ namespace Kata.MarsRover.Tests.Domain {
         /// </summary>
         /// <param name="commands"></param>
         public void Go(string commands) {
+            if (string.IsNullOrWhiteSpace(commands))
+            {
+                throw new ArgumentException(nameof(commands));
+            }
+
             foreach (var command in commands) {
                 switch (command)
                 {
