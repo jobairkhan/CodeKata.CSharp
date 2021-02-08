@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using Kata.MarsRover.Tests.Domain;
 using Kata.MarsRover.Tests.Domain.ValueObject;
@@ -104,6 +105,18 @@ namespace Kata.MarsRover.Tests.UnitTests
             rover.CurrentLocation
                 .Should()
                 .Be("4 2 E");
+        }
+
+        [Fact]
+        public void Throw_error_when_invalid_input()
+        {
+            var rover = new Rover(new Grid(5, 5),
+                new Position(3, 3),
+                Direction.Create(Compass.N));
+
+            Action act = () => rover.Go(null);
+
+            act.Should().Throw<ArgumentNullException>("Commands cannot be null");
         }
     }
 }
